@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PlugHubs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="container" id="main">
+      <header role="banner">
+        <span class="menu" onclick="openNav()">&#9776; PlugHubs</span>
+        <div class="search-container">
+          <input id="address" type="text"  name="search" placeholder="Search...">
+          <button id="submit" type="submit" onclick="searchAddress()" value="search"><i class="fa fa-search"></i></button>
+        </div>
+      </header>
+      <nav role="navigation" id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h2>Filter by:</h2>
+
+        <div class="sidebar-links">
+
+          <div class="link-blue selected">
+            <a href="#">Distance</a>
+
+            <ul class="sub-links">
+              <select class="distance">
+                <option value="2">2 mile</option>
+                <option value="5">5 mile</option>
+                <option value="10">10 mile</option>
+                <option value="25">25 mile</option>
+                <option value="50">50 mile</option>
+                <option value="100">100 mile</option>
+                <option value="250">250 mile</option>
+                <option value="500">500 mile</option>
+              </select>
+            </ul>
+          </div>
+
+          <div class="link-red">
+            <a href="#">Connector Type</a>
+
+            <ul class="sub-links">
+              <li>
+                <input type="checkbox" id="ct1" value="NEMA515" class="connector-type" />
+                <label for="ct1">NEMA 5-15 (Level 1)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="ct2" value="NEMA520" class="connector-type" />
+                <label for="ct2">NEMA 5-20 (Level 1)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="ct3" value="NEMA1450" class="connector-type" />
+                <label for="ct3">NEMA 14-50 (Level 1)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="ct4" value="JI772" class="connector-type" />
+                <label for="ct4">J1772 (Level 2)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="ct5" value="CHADEMO" class="connector-type" />
+                <label for="ct5">CHAdeMO (DC fast charging)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="ct6" value="J1772COMBO" class="connector-type" />
+                <label for="ct6>">SAE J1772 Combo (DC fast charging)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="ct7" value="TESLA" class="connector-type" />
+                <label for="ct6>">Tesla (DC fast charging and Level 2)</label>
+              </li> 
+            </ul>
+          </div>
+
+          <div class="link-yellow">
+           <a href="#">Network</a>
+
+            <ul class="sub-links">
+              <li>
+                <input type="checkbox" id="nw1" value="AVN" class="network" />
+                <label for="nw1">AeroVironment Network</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw2" value="BLN" class="network" />
+                <label for="nw2">Blink Network</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw3" value="CPN" class="network" />
+                <label for="nw3">ChargePoint Network</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw4" value="EVC" class="network" />
+                <label for="nw4">EV Connect</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw5" value="EVN" class="network" />
+                <label for="nw5">eVgo Network</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw6" value="GEW" class="network" />
+                <label for="nw6>">GE WattStation</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw7" value="OPC" class="network" />
+                <label for="nw7>">OpConnect</label>
+              </li>
+               <li>
+                <input type="checkbox" id="nw8" value="SCN" class="network" />
+                <label for="nw8">SemaCharge Network</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw9" value="TSL" class="network" />
+                <label for="nw9>">Tesla</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="nw10" value="GRL" class="network" />
+                <label for="nw10>">Greenlots</label>
+              </li> 
+            </ul>
+          </div>
+
+          <div class="link-green">
+           <a href="#">Charging Level</a>
+
+            <ul class="sub-links">
+              <li>
+                <input type="checkbox" id="cl1" value="1" class="charging-level" />
+                <label for="cl1">Level 1 EVSE (standard 110V outlet)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="cl2" value="2" class="charging-level" />
+                <label for="cl2">Level2 EVSE (J1772 connector)</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="cl3" value="fast" class="charging-level" />
+                <label for="cl3">DC Fast Charging</label>
+              </li> 
+              <li>
+                <input type="checkbox" id="cl4" value="legacy" class="charging-level" />
+                <label for="cl4">Legacy charging systems</label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="link-purple">
+           <a href="#">Plan a Trip</a>
+
+            <ul class="sub-links">
+              <li><a href="#">Coming Soon!</a></li>
+            </ul>
+            </ul>
+          </div>
+
+          <div class="link-orange">
+           <a href="#">List Stations</a>
+
+            <ul class="sub-links">
+              <li><a href="#">Coming Soon!</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <section role="region">
+        <div id="map"></div>
+      </section>
+      <footer>Copyright &copy; maddiereddy.com</footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="config.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

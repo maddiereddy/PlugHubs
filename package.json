@@ -1,0 +1,22 @@
+{
+  "name": "plughubs",
+  "version": "1.0.0",
+  "description": "API Capstone project for Thinkful Full Stack Flex program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maddiereddy/PlugHubs.git"
+  },
+  "author": "Maddie Rajavasireddy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maddiereddy/PlugHubs/issues"
+  },
+  "homepage": "https://github.com/maddiereddy/PlugHubs#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
