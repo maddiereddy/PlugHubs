@@ -2,6 +2,28 @@
 
 var map, infoWindow, marker;
 
+function getEVStations(latitude, longitude) {
+
+	var stationServiceUrl = 'http://developer.nrel.gov/api/alt-fuel-stations/v1/';
+	var fuelType = 'ELEC';
+	var access = 'public'; 
+	var status = 'E';
+	var urlString = `${stationServiceUrl}nearest.json?api_key=${NREL_API_KEY}&latitude=${latitude}&longitude=${longitude}&fuel_type=${fuelType}&access=${access}&status=${status}`;
+	
+	$.getJSON(urlString,function(json){    
+	    var fuel_stations = json.fuel_stations;
+	    var str = "";
+	    $.each(fuel_stations, function(index, station) {
+	      str += `lat: ${station.latitude}, long: ${station.longitude};    
+	      				<b><u>Name:</u> ${station.station_name}</b>;        
+	      				<b><u>Address:</u> ${station.street_address}, ${station.city}, ${station.state} ${station.zip}</b>
+	      				<br>`;
+	    });
+
+	    $('#results').html(str);
+	});  
+}
+
 // Initialize app with geolocation
 function initMap() {
   if (navigator.geolocation) {
@@ -12,7 +34,7 @@ function initMap() {
       };
 
       map = new google.maps.Map(document.getElementById('map'), {
-			  zoom: 15,
+			  zoom: 13,
 			  center: pos
 			});
 
@@ -26,6 +48,8 @@ function initMap() {
       infoWindow.setContent('You are here');
       infoWindow.open(map, marker);
       map.setCenter(pos);
+
+			getEVStations(pos.lat, pos.lng);
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -58,17 +82,21 @@ function geocodeAddress(geocoder, resultsMap) {
 
   geocoder.geocode({'address': address}, function(results, status) {
     if (status === 'OK') {
+    	var pos = results[0].geometry.location;
+
     	infoWindow = new google.maps.InfoWindow;
 
-      resultsMap.setCenter(results[0].geometry.location);
+      resultsMap.setCenter(pos);
 
       marker = new google.maps.Marker({
         map: resultsMap,
-        position: results[0].geometry.location
+        position: pos
       });
 
       infoWindow.setContent(results[0].formatted_address);
       infoWindow.open(map, marker);
+
+      getEVStations(pos.lat(), pos.lng());
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
@@ -77,19 +105,19 @@ function geocodeAddress(geocoder, resultsMap) {
 
 // Open Side Navbar menu
 function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
-  document.getElementById("main").style.width = "calc(100% - 250px)";
+  $("#mySidenav")[0].style.width = "250px";
+  $("#main")[0].style.marginLeft = "250px";
+  $("#main")[0].style.width = "calc(100% - 250px)";
 }
 
 // Close Side Navbar menu
 function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("main").style.marginLeft= "0";
-  document.getElementById("main").style.width = "100%";
+  $("#mySidenav")[0].style.width = "0";
+  $("#main")[0].style.marginLeft= "0";
+  $("#main")[0].style.width = "100%";
 }
 
-$(document).ready( function() {
+$(document).ready(function() {
 
 	const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
 	let scriptNode = $('<script></script>').attr('src', URL);

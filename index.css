@@ -188,7 +188,7 @@ section {
   overflow: hidden;
 }
 
-#map {
+#map, #results {
 	height: 600px;
 }
 
