@@ -13,39 +13,73 @@ function openPage(pageName) {
 }
 
 function getEVStations(latitude, longitude) {
+	var locations = [];
 	var stationServiceUrl = 'http://developer.nrel.gov/api/alt-fuel-stations/v1/';
 	var fuelType = 'ELEC';
 	var access = 'public'; 
 	var status = 'E';
-	var urlString = `${stationServiceUrl}nearest.json?api_key=${NREL_API_KEY}&latitude=${latitude}&longitude=${longitude}&fuel_type=${fuelType}&access=${access}&status=${status}`;
+	var urlString = `${stationServiceUrl}nearest.json?api_key=${NREL_API_KEY}
+									&latitude=${latitude}&longitude=${longitude}&fuel_type=${fuelType}
+									&access=${access}&status=${status}`;
 	
 	$.getJSON(urlString,function(json){    
 	    var fuel_stations = json.fuel_stations;
 	    var index = 0;
-	    var markers = [];
 	    var str = `<tr>
-			            <th>#</th><th>Name</th> <th>Address</th><th>Phone</th><th>Hours of operation</th><th>Distance (miles)</th>
+			            <th>#</th><th>Name</th> <th>Address</th><th>Phone</th>
+			            <th>Hours of operation</th><th>Distance (miles)</th>
 			          </tr>`;
 	    
 			$.each(fuel_stations, function(index, station) {
 	    	index++;
 	    	var address = `${station.street_address}, ${station.city}, ${station.state} ${station.zip}`;
 	    	var distance = station.distance.toFixed(2);
-	    	var marker = [];
+	    	var loc = [];
 
-	    	marker.push(address);
-	    	marker.push(station.latitude);
-	    	marker.push(station.longitude);
-	    	markers.push(marker);
+	    	loc.push(address);
+	    	loc.push(station.latitude);
+	    	loc.push(station.longitude);
+	    	locations.push(loc);
 
 	    	str += `<tr>
-    							<td>${index}</td><td>${station.station_name}</td><td>${address}</td>
-    							<td>${station.station_phone}</td><td>${station.access_days_time}</td><td>${distance}</td>
+    							<td>${index}</td><td>${station.station_name}</td>
+    							<td>${address}</td><td>${station.station_phone}</td>
+    							<td>${station.access_days_time}</td><td>${distance}</td>
 							  </tr>`
-	    });
+	    })
 
 	    $('#results').html(str);
-	});  
+	}).then(function(){
+		var bounds = new google.maps.LatLngBounds();
+		map = new google.maps.Map(document.getElementById('map'), {
+		  zoom: 13
+		});
+		var pos = {
+      lat: latitude,
+      lng: longitude
+    };
+
+		infoWindow = new google.maps.InfoWindow();
+
+    for (var i = 0; i < locations.length; i++) { 
+    	var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
+      bounds.extend(position);
+      marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: locations[i][0]
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infoWindow.setContent(locations[i][0]);
+      		infoWindow.open(map, marker);
+        }
+      })(marker, i));
+	  }
+
+	  map.fitBounds(bounds);
+  });
 }
 
 // Initialize app with geolocation
@@ -58,21 +92,6 @@ function initMap() {
       };
 
       getEVStations(pos.lat, pos.lng);
-
-      map = new google.maps.Map(document.getElementById('map'), {
-			  zoom: 13
-			});
-
-      marker = new google.maps.Marker({
-		    position: pos,
-		    map: map
-  		});
-
-      infoWindow = new google.maps.InfoWindow;
-
-      infoWindow.setContent('You are here');
-      infoWindow.open(map, marker);
-      map.setCenter(pos);	
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -108,19 +127,7 @@ function geocodeAddress(geocoder, resultsMap) {
     	var pos = results[0].geometry.location;
 
     	getEVStations(pos.lat(), pos.lng());
-
-    	infoWindow = new google.maps.InfoWindow;
-			resultsMap.setCenter(pos);
-
-      marker = new google.maps.Marker({
-        map: resultsMap,
-        position: pos
-      });
-
-      infoWindow.setContent(results[0].formatted_address);
-      infoWindow.open(map, marker);
-
-      
+   
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
