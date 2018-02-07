@@ -2,8 +2,17 @@
 
 var map, infoWindow, marker;
 
-function getEVStations(latitude, longitude) {
+function openPage(pageName) {
+  if (pageName === 'map') {
+  	$('#results').addClass('hidden');
+  	$('#map').removeClass('hidden');
+  } else {
+  	$('#map').addClass('hidden');
+  	$('#results').removeClass('hidden');
+  }
+}
 
+function getEVStations(latitude, longitude) {
 	var stationServiceUrl = 'http://developer.nrel.gov/api/alt-fuel-stations/v1/';
 	var fuelType = 'ELEC';
 	var access = 'public'; 
@@ -12,12 +21,27 @@ function getEVStations(latitude, longitude) {
 	
 	$.getJSON(urlString,function(json){    
 	    var fuel_stations = json.fuel_stations;
-	    var str = "";
-	    $.each(fuel_stations, function(index, station) {
-	      str += `lat: ${station.latitude}, long: ${station.longitude};    
-	      				<b><u>Name:</u> ${station.station_name}</b>;        
-	      				<b><u>Address:</u> ${station.street_address}, ${station.city}, ${station.state} ${station.zip}</b>
-	      				<br>`;
+	    var index = 0;
+	    var markers = [];
+	    var str = `<tr>
+			            <th>#</th><th>Name</th> <th>Address</th><th>Phone</th><th>Hours of operation</th><th>Distance (miles)</th>
+			          </tr>`;
+	    
+			$.each(fuel_stations, function(index, station) {
+	    	index++;
+	    	var address = `${station.street_address}, ${station.city}, ${station.state} ${station.zip}`;
+	    	var distance = station.distance.toFixed(2);
+	    	var marker = [];
+
+	    	marker.push(address);
+	    	marker.push(station.latitude);
+	    	marker.push(station.longitude);
+	    	markers.push(marker);
+
+	    	str += `<tr>
+    							<td>${index}</td><td>${station.station_name}</td><td>${address}</td>
+    							<td>${station.station_phone}</td><td>${station.access_days_time}</td><td>${distance}</td>
+							  </tr>`
 	    });
 
 	    $('#results').html(str);
@@ -33,9 +57,10 @@ function initMap() {
         lng: position.coords.longitude
       };
 
+      getEVStations(pos.lat, pos.lng);
+
       map = new google.maps.Map(document.getElementById('map'), {
-			  zoom: 13,
-			  center: pos
+			  zoom: 13
 			});
 
       marker = new google.maps.Marker({
@@ -47,9 +72,7 @@ function initMap() {
 
       infoWindow.setContent('You are here');
       infoWindow.open(map, marker);
-      map.setCenter(pos);
-
-			getEVStations(pos.lat, pos.lng);
+      map.setCenter(pos);	
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -70,7 +93,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 function searchAddress() {
 	map = new google.maps.Map(document.getElementById('map'), {
-	  zoom: 15
+	  zoom: 13
 	});
 
 	var geocoder = new google.maps.Geocoder();
@@ -84,9 +107,10 @@ function geocodeAddress(geocoder, resultsMap) {
     if (status === 'OK') {
     	var pos = results[0].geometry.location;
 
-    	infoWindow = new google.maps.InfoWindow;
+    	getEVStations(pos.lat(), pos.lng());
 
-      resultsMap.setCenter(pos);
+    	infoWindow = new google.maps.InfoWindow;
+			resultsMap.setCenter(pos);
 
       marker = new google.maps.Marker({
         map: resultsMap,
@@ -96,7 +120,7 @@ function geocodeAddress(geocoder, resultsMap) {
       infoWindow.setContent(results[0].formatted_address);
       infoWindow.open(map, marker);
 
-      getEVStations(pos.lat(), pos.lng());
+      
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }

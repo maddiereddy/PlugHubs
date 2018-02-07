@@ -14,9 +14,15 @@
     <div class="container" id="main">
       <header role="banner">
         <span class="menu" onclick="openNav()">&#9776; PlugHubs</span>
+        <div class="tab-container">
+          <button class="tablink" onclick="openPage('map')">Map View</button>
+          <button class="tablink" onclick="openPage('results')">List View</button>
+        </div>
         <div class="search-container">
           <input id="address" type="text"  name="search" placeholder="Search...">
-          <button id="submit" type="submit" onclick="searchAddress()" value="search"><i class="fa fa-search"></i></button>
+          <button id="submit" type="submit" onclick="searchAddress()" value="search">
+            <i class="fa fa-search"></i>
+          </button>
         </div>
       </header>
       <nav role="navigation" id="mySidenav" class="sidenav">
@@ -156,20 +162,13 @@
             </ul>
           </div>
 
-          <div class="link-orange">
-           <a href="#">List Stations</a>
-
-            <ul class="sub-links">
-              <li><a href="#">Coming Soon!</a></li>
-            </ul>
-          </div>
         </div>
       </nav>
       <section role="region">
         <div id="map"></div>
       </section>
       <section role="region">
-        <p id="results">Test Paragraph</p>
+        <table id="results" class="hidden"></table>
       </section>
       <footer>Copyright &copy; maddiereddy.com</footer>
     </div>
