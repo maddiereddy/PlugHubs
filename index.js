@@ -1,19 +1,16 @@
 'use strict'
 
 var map, infoWindow, marker;
-var directionsService, directionsDisplay;
 
-function mapRoute() {
-	console.log("we here 1");
+// create a route according to user input
+function mapRoute(directionsService, directionsDisplay) {
 
   directionsService.route({
     origin: document.getElementById('from').value,
     destination: document.getElementById('to').value,
     travelMode: 'DRIVING'
-
   }, function(response, status) {
-
-    	console.log("we here 2");
+  	console.log(status);
     if (status === 'OK') {
       directionsDisplay.setDirections(response);
     } else {
@@ -21,20 +18,10 @@ function mapRoute() {
     }
   });
 
-  directionsDisplay.setMap(map);
 }
 
-// work the tabs according to user selection
-function openPage(pageName) {
-  if (pageName === 'map') {
-  	$('#results').addClass('hidden');
-  	$('#map').removeClass('hidden');
-  } else {
-  	$('#map').addClass('hidden');
-  	$('#results').removeClass('hidden');
-  }
-}
 
+// Get all filter selections
 function getDistance() {
 	var e = document.getElementById('radius');
 	return  parseFloat(e.options[e.selectedIndex].value);
@@ -58,6 +45,7 @@ function getNetwork() {
 	return checkArray.join(',');
 }
 
+// get ev stations from nrel and map them
 function getEVStations(latitude, longitude) {
 	var locations = new Array();
 	var stationServiceUrl = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/';
@@ -68,6 +56,8 @@ function getEVStations(latitude, longitude) {
 	var connector = getConnectorType();
 	var level = getChargingLevel();
 	var networks = getNetwork();
+
+	console.log("in getEVStations");
 
 	var urlString = `${stationServiceUrl}nearest.json?api_key=${NREL_API_KEY}
 									&latitude=${latitude}&longitude=${longitude}&fuel_type=${fuelType}
@@ -129,23 +119,27 @@ function getEVStations(latitude, longitude) {
         }
       })(marker, i));
 	  }
-console.log("we here 3");
+
 	  map.fitBounds(bounds);
   });
 }
 
+
 // Initialize app with geolocation
 function initMap() {
+	console.log("in initMap")
 
-	directionsService = new google.maps.DirectionsService;
-  directionsDisplay = new google.maps.DirectionsRenderer;
-
-  if (navigator.geolocation) {
+	if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 7,
+        center: {lat: pos.lat, lng: pos.lng}
+      });
 
       getEVStations(pos.lat, pos.lng);
 
@@ -190,6 +184,33 @@ function geocodeAddress(geocoder, resultsMap) {
   });
 }
 
+function initRoute() {
+	var directionsService = new google.maps.DirectionsService();
+  var directionsDisplay = new google.maps.DirectionsRenderer();
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7
+  });
+
+  directionsDisplay.setMap(map);
+
+	var onMapIt = function() {
+    mapRoute(directionsService, directionsDisplay);
+  };
+  document.getElementById('trip-form').addEventListener('submit', onMapIt);
+}
+
+// work the tabs according to user selection
+function openPage(pageName) {
+  if (pageName === 'map') {
+  	$('#results').addClass('hidden');
+  	$('#map').removeClass('hidden');
+  } else {
+  	$('#map').addClass('hidden');
+  	$('#results').removeClass('hidden');
+  }
+}
+
 // Open Side Navbar menu
 function openNav() {
   $("#mySidenav")[0].style.width = "250px";
@@ -206,7 +227,9 @@ function closeNav() {
 
 $(document).ready(function() {
 
-	const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
+	console.log("in the loading function")
+
+	const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}`;
 	let scriptNode = $('<script></script>').attr('src', URL);
 	
 	scriptNode.attr('async', 'async');
@@ -230,5 +253,7 @@ $(document).ready(function() {
       document.getElementById('submit').click();
     }
   }); 
+
+  initMap();
 
 });
