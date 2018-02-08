@@ -35,7 +35,7 @@
             <a href="#">Distance</a>
 
             <ul class="sub-links">
-              <select class="distance">
+              <select id="radius" class="distance">
                 <option value="2">2 mile</option>
                 <option value="5">5 mile</option>
                 <option value="10">10 mile</option>
@@ -53,31 +53,35 @@
 
             <ul class="sub-links">
               <li>
-                <input type="checkbox" id="ct1" value="NEMA515" class="connector-type" />
+                <input type="radio" id="ct0" value="all" name="connector-type" checked>
+                <label for="ct0">All</label>
+              </li> 
+              <li>
+                <input type="radio" id="ct1" value="NEMA515" name="connector-type" />
                 <label for="ct1">NEMA 5-15 (Level 1)</label>
               </li> 
               <li>
-                <input type="checkbox" id="ct2" value="NEMA520" class="connector-type" />
+                <input type="radio" id="ct2" value="NEMA520" name="connector-type" />
                 <label for="ct2">NEMA 5-20 (Level 1)</label>
               </li> 
               <li>
-                <input type="checkbox" id="ct3" value="NEMA1450" class="connector-type" />
+                <input type="radio" id="ct3" value="NEMA1450" name="connector-type" />
                 <label for="ct3">NEMA 14-50 (Level 1)</label>
               </li> 
               <li>
-                <input type="checkbox" id="ct4" value="JI772" class="connector-type" />
+                <input type="radio" id="ct4" value="JI772" name="connector-type" />
                 <label for="ct4">J1772 (Level 2)</label>
               </li> 
               <li>
-                <input type="checkbox" id="ct5" value="CHADEMO" class="connector-type" />
+                <input type="radio" id="ct5" value="CHADEMO" name="connector-type" />
                 <label for="ct5">CHAdeMO (DC fast charging)</label>
               </li> 
               <li>
-                <input type="checkbox" id="ct6" value="J1772COMBO" class="connector-type" />
+                <input type="radio" id="ct6" value="J1772COMBO" name="connector-type" />
                 <label for="ct6>">SAE J1772 Combo (DC fast charging)</label>
               </li> 
               <li>
-                <input type="checkbox" id="ct7" value="TESLA" class="connector-type" />
+                <input type="radio" id="ct7" value="TESLA" name="connector-type" />
                 <label for="ct6>">Tesla (DC fast charging and Level 2)</label>
               </li> 
             </ul>
@@ -88,43 +92,43 @@
 
             <ul class="sub-links">
               <li>
-                <input type="checkbox" id="nw1" value="AVN" class="network" />
+                <input type="checkbox" id="nw1" value="AeroVironment Network" class="network" checked/>
                 <label for="nw1">AeroVironment Network</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw2" value="BLN" class="network" />
+                <input type="checkbox" id="nw2" value="Blink Network" class="network" checked/>
                 <label for="nw2">Blink Network</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw3" value="CPN" class="network" />
+                <input type="checkbox" id="nw3" value="ChargePoint Network" class="network" checked/>
                 <label for="nw3">ChargePoint Network</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw4" value="EVC" class="network" />
+                <input type="checkbox" id="nw4" value="EV Connect" class="network" checked/>
                 <label for="nw4">EV Connect</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw5" value="EVN" class="network" />
+                <input type="checkbox" id="nw5" value="eVgo Network" class="network" checked/>
                 <label for="nw5">eVgo Network</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw6" value="GEW" class="network" />
+                <input type="checkbox" id="nw6" value="GE WattStation" class="network" checked/>
                 <label for="nw6>">GE WattStation</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw7" value="OPC" class="network" />
+                <input type="checkbox" id="nw7" value="OpConnect" class="network" checked/>
                 <label for="nw7>">OpConnect</label>
               </li>
                <li>
-                <input type="checkbox" id="nw8" value="SCN" class="network" />
+                <input type="checkbox" id="nw8" value="SemaCharge Network" class="network" checked/>
                 <label for="nw8">SemaCharge Network</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw9" value="TSL" class="network" />
+                <input type="checkbox" id="nw9" value="Tesla" class="network" checked/>
                 <label for="nw9>">Tesla</label>
               </li> 
               <li>
-                <input type="checkbox" id="nw10" value="GRL" class="network" />
+                <input type="checkbox" id="nw10" value="Greenlots" class="network" checked/>
                 <label for="nw10>">Greenlots</label>
               </li> 
             </ul>
@@ -135,35 +139,40 @@
 
             <ul class="sub-links">
               <li>
-                <input type="checkbox" id="cl1" value="1" class="charging-level" />
+                <input type="radio" id="cl0" value="all" name="charging-level" checked>
+                <label for="cl0">All</label>
+              </li> 
+              <li>
+                <input type="radio" id="cl1" value="1" name="charging-level" >
                 <label for="cl1">Level 1 EVSE (standard 110V outlet)</label>
               </li> 
               <li>
-                <input type="checkbox" id="cl2" value="2" class="charging-level" />
+                <input type="radio" id="cl2" value="2" name="charging-level" >
                 <label for="cl2">Level2 EVSE (J1772 connector)</label>
               </li> 
               <li>
-                <input type="checkbox" id="cl3" value="fast" class="charging-level" />
+                <input type="radio" id="cl3" value="dc_fast" name="charging-level" >
                 <label for="cl3">DC Fast Charging</label>
               </li> 
               <li>
-                <input type="checkbox" id="cl4" value="legacy" class="charging-level" />
+                <input type="radio" id="cl4" value="legacy" name="charging-level" >
                 <label for="cl4">Legacy charging systems</label>
               </li>
             </ul>
           </div>
 
-          <div class="link-purple">
-           <a href="#">Plan a Trip</a>
+          <div class="link-orange">
+            <a href="#">Plan a Trip</a>
 
-            <ul class="sub-links">
-              <li><a href="#">Coming Soon!</a></li>
-            </ul>
-            </ul>
+            <form class="sub-links" onsubmit="mapRoute()">
+              <input type="text" id="from" name="from" placeholder="From location..."><br>
+              <input type="text" id="to" name="to" placeholder="To location..."><br><br>
+              <input type="submit" value="Map it">
+            </form>
           </div>
-
-        </div>
+        </div>  
       </nav>
+
       <section role="region">
         <div id="map"></div>
       </section>

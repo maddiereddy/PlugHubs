@@ -1,7 +1,30 @@
 'use strict'
 
 var map, infoWindow, marker;
+var directionsService, directionsDisplay;
 
+function mapRoute() {
+	console.log("we here 1");
+
+  directionsService.route({
+    origin: document.getElementById('from').value,
+    destination: document.getElementById('to').value,
+    travelMode: 'DRIVING'
+
+  }, function(response, status) {
+
+    	console.log("we here 2");
+    if (status === 'OK') {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+
+  directionsDisplay.setMap(map);
+}
+
+// work the tabs according to user selection
 function openPage(pageName) {
   if (pageName === 'map') {
   	$('#results').addClass('hidden');
@@ -12,15 +35,44 @@ function openPage(pageName) {
   }
 }
 
+function getDistance() {
+	var e = document.getElementById('radius');
+	return  parseFloat(e.options[e.selectedIndex].value);
+}
+
+function getChargingLevel() {
+	return  $('input[name="charging-level"]:checked').val();
+}
+
+function getConnectorType() {
+	return $('input[name="connector-type"]:checked').val();
+}
+
+function getNetwork() {
+	var checkArray = new Array(); 
+	var items = document.getElementsByClassName('network');
+
+	for (var i = 0; i < items.length; i++){
+		if (items[i].checked) checkArray.push(items[i].value);
+	}
+	return checkArray.join(',');
+}
+
 function getEVStations(latitude, longitude) {
-	var locations = [];
-	var stationServiceUrl = 'http://developer.nrel.gov/api/alt-fuel-stations/v1/';
+	var locations = new Array();
+	var stationServiceUrl = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/';
 	var fuelType = 'ELEC';
 	var access = 'public'; 
 	var status = 'E';
+	var distance = getDistance();
+	var connector = getConnectorType();
+	var level = getChargingLevel();
+	var networks = getNetwork();
+
 	var urlString = `${stationServiceUrl}nearest.json?api_key=${NREL_API_KEY}
 									&latitude=${latitude}&longitude=${longitude}&fuel_type=${fuelType}
-									&access=${access}&status=${status}`;
+									&access=${access}&status=${status}&radius=${distance}&limit=${100}
+									&ev_charging_level=${level}&ev_connector_type=${connector}&ev_network=${networks}`;
 	
 	$.getJSON(urlString,function(json){    
 	    var fuel_stations = json.fuel_stations;
@@ -52,7 +104,7 @@ function getEVStations(latitude, longitude) {
 	}).then(function(){
 		var bounds = new google.maps.LatLngBounds();
 		map = new google.maps.Map(document.getElementById('map'), {
-		  zoom: 13
+		  zoom: 5
 		});
 		var pos = {
       lat: latitude,
@@ -77,13 +129,17 @@ function getEVStations(latitude, longitude) {
         }
       })(marker, i));
 	  }
-
+console.log("we here 3");
 	  map.fitBounds(bounds);
   });
 }
 
 // Initialize app with geolocation
 function initMap() {
+
+	directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer;
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = {
@@ -112,7 +168,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 function searchAddress() {
 	map = new google.maps.Map(document.getElementById('map'), {
-	  zoom: 13
+	  zoom: 5
 	});
 
 	var geocoder = new google.maps.Geocoder();

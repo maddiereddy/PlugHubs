@@ -12,7 +12,7 @@ div.container {
 
 header, footer {
   color: white;
-  background-color: black;
+  background-color: #333333;
   clear: left;
   overflow: hidden;
 	padding: 1em;
@@ -82,7 +82,7 @@ footer {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #333333;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -132,9 +132,9 @@ footer {
   text-decoration: none;
   margin: 0 auto 5px auto;
   padding: 2px 0 2px 10px;
-  background-color: #35393e;
+  background-color: darkgray;
   text-align: left;
-  color: #b3bcc5;
+  color: black;
   font-size: 14px;
   font-weight: bold;
   line-height: 2;
@@ -191,8 +191,8 @@ footer {
   border-color: lawngreen;
 }
 
-.sidebar-links div.link-purple > a {
-  border-color: purple;
+.sidebar-links div.link-orange > a {
+  border-color: darkorange;
 }
 
 section {
