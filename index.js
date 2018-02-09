@@ -9,15 +9,15 @@ function mapRoute(directionsService, directionsDisplay) {
     origin: document.getElementById('from').value,
     destination: document.getElementById('to').value,
     travelMode: 'DRIVING'
-  }, function(response, status) {
-  	console.log(status);
+  }, 
+  function(response, status) {
     if (status === 'OK') {
+  		directionsDisplay.setMap(map);
       directionsDisplay.setDirections(response);
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
-
 }
 
 
@@ -143,6 +143,8 @@ function initMap() {
 
       getEVStations(pos.lat, pos.lng);
 
+      initRoute();
+
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
     });
@@ -197,7 +199,7 @@ function initRoute() {
 	var onMapIt = function() {
     mapRoute(directionsService, directionsDisplay);
   };
-  document.getElementById('trip-form').addEventListener('submit', onMapIt);
+  document.getElementById('route').addEventListener('click', onMapIt);
 }
 
 // work the tabs according to user selection
@@ -253,7 +255,7 @@ $(document).ready(function() {
       document.getElementById('submit').click();
     }
   }); 
-
+  
   initMap();
 
 });
