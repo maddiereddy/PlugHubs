@@ -83,7 +83,7 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 	if (!bRoute) {
 		urlString += `&latitude=${lat1}&longitude=${lng1}`;
 	} else {
-		urlString += `&route=LINESTRING(${lat1} ${lng1}, ${lat2} ${lng2})&callback=?`;
+		urlString += `&route=LINESTRING(${lat1} ${lng1}, ${lat2} ${lng2})`;
 	}
 	
 	$.getJSON(urlString, function(json){    
