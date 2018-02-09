@@ -4,6 +4,7 @@ var map, infoWindow, marker;
 
 // create a route according to user input
 function mapRoute(directionsService, directionsDisplay) {
+	var lat1, lat2, lng1, lng2, pos1, pos2;
 
   directionsService.route({
     origin: document.getElementById('from').value,
@@ -14,6 +15,10 @@ function mapRoute(directionsService, directionsDisplay) {
     if (status === 'OK') {
   		directionsDisplay.setMap(map);
       directionsDisplay.setDirections(response);
+      pos1 = response.routes[0].legs[0].start_location;
+      pos2 = response.routes[0].legs[0].end_location;
+
+      mapEVStations(pos1.lat(), pos1.lng(), pos2.lat(), pos2.lng(), true);
     } else {
       window.alert('Directions request failed due to ' + status);
     }
@@ -35,7 +40,7 @@ function getConnectorType() {
 	return $('input[name="connector-type"]:checked').val();
 }
 
-function getNetwork() {
+function getNetworks() {
 	var checkArray = new Array(); 
 	var items = document.getElementsByClassName('network');
 
@@ -45,9 +50,7 @@ function getNetwork() {
 	return checkArray.join(',');
 }
 
-// get ev stations from nrel and map them
-function mapEVStations(latitude, longitude) {
-	var locations = new Array();
+function getNrelUrlString(bRoute) {
 	var stationServiceUrl = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/';
 	var fuelType = 'ELEC';
 	var access = 'public'; 
@@ -55,14 +58,35 @@ function mapEVStations(latitude, longitude) {
 	var distance = getDistance();
 	var connector = getConnectorType();
 	var level = getChargingLevel();
-	var networks = getNetwork();
+	var networks = getNetworks();
 
-	var urlString = `${stationServiceUrl}nearest.json?api_key=${NREL_API_KEY}
-									&latitude=${latitude}&longitude=${longitude}&fuel_type=${fuelType}
-									&access=${access}&status=${status}&radius=${distance}&limit=${100}
-									&ev_charging_level=${level}&ev_connector_type=${connector}&ev_network=${networks}`;
+	var urlString, queryString;
+
+	queryString = `api_key=${NREL_API_KEY}&fuel_type=${fuelType}&access=${access}&status=${status}
+							&radius=${distance}&limit=${100}&ev_charging_level=${level}
+							&ev_connector_type=${connector}&ev_network=${networks}`;
+
+	if (!bRoute) {
+		urlString = `${stationServiceUrl}nearest.json?`;
+	} else {
+		urlString = `${stationServiceUrl}nearby-route.json?`;
+	}
+
+	return urlString + queryString;
+}
+
+// get ev stations from nrel and map them
+function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
+	var locations = new Array();
+	var urlString = getNrelUrlString(bRoute);
+
+	if (!bRoute) {
+		urlString += `&latitude=${lat1}&longitude=${lng1}`;
+	} else {
+		urlString += `&route=LINESTRING(${lat1} ${lng1}, ${lat2} ${lng2})&callback=?`;
+	}
 	
-	$.getJSON(urlString,function(json){    
+	$.getJSON(urlString, function(json){    
 	    var fuel_stations = json.fuel_stations;
 	    var index = 0;
 	    var str = `<tr>
@@ -95,8 +119,8 @@ function mapEVStations(latitude, longitude) {
 		  zoom: 5
 		});
 		var pos = {
-      lat: latitude,
-      lng: longitude
+      lat: lat1,
+      lng: lng1
     };
 
 		infoWindow = new google.maps.InfoWindow();
@@ -163,7 +187,7 @@ function initMap() {
         center: {lat: pos.lat, lng: pos.lng}
       });
 
-      mapEVStations(pos.lat, pos.lng);
+      mapEVStations(pos.lat, pos.lng, 0, 0, false);
 
       initRoute();
 
@@ -200,7 +224,7 @@ function geocodeAddress(geocoder, resultsMap) {
     if (status === 'OK') {
     	var pos = results[0].geometry.location;
 
-    	mapEVStations(pos.lat(), pos.lng());
+    	mapEVStations(pos.lat(), pos.lng(), 0, 0, false);
    
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
