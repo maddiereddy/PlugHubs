@@ -79,14 +79,24 @@ function getNrelUrlString(bRoute) {
 function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 	var locations = new Array();
 	var urlString = getNrelUrlString(bRoute);
+	var methodType;
 
 	if (!bRoute) {
 		urlString += `&latitude=${lat1}&longitude=${lng1}`;
 	} else {
 		urlString += `&route=LINESTRING(${lat1} ${lng1}, ${lat2} ${lng2})`;
 	}
-	
-	$.getJSON(urlString, function(json){    
+
+	if (!bRoute) methodType = 'GET';
+	else methodType = 'POST'; 
+
+	$.ajax({
+    url: urlString,
+    dataType: 'json',
+    method: methodType,
+    crossDomain: true,
+    contentType: 'application/x-www-form-urlencoded',
+		success: function(json){    
 	    var fuel_stations = json.fuel_stations;
 	    var index = 0;
 	    var str = `<tr>
@@ -113,7 +123,7 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 	    })
 
 	    $('#results').html(str);
-	}).then(function(){
+	}}).then(function(){
 		var bounds = new google.maps.LatLngBounds();
 		map = new google.maps.Map(document.getElementById('map'), {
 		  zoom: 5

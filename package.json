@@ -4,7 +4,7 @@
   "description": "API Capstone project for Thinkful Full Stack Flex program",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -a localhost -p 8010 -c-1",
+    "start": "http-server -a localhost -p 8010 -c-1 --cors -o",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
