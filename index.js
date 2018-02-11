@@ -13,8 +13,14 @@ function mapRoute(directionsService, directionsDisplay) {
   }, 
   function(response, status) {
     if (status === 'OK') {
+    	directionsDisplay.setOptions({
+			  polylineOptions: {
+			    strokeColor: 'red'
+			  }
+			});
   		directionsDisplay.setMap(map);
       directionsDisplay.setDirections(response);
+
       pos1 = response.routes[0].legs[0].start_location;
       pos2 = response.routes[0].legs[0].end_location;
 
@@ -50,6 +56,13 @@ function getNetworks() {
 	return checkArray.join(',');
 }
 
+function formatCoords(str) {
+	var prefix;
+	prefix = parseFloat(str) > 0 ? '+' : '';
+
+	return prefix+str;
+}
+
 function getNrelUrlString(bRoute) {
 	var stationServiceUrl = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/';
 	var fuelType = 'ELEC';
@@ -59,6 +72,8 @@ function getNrelUrlString(bRoute) {
 	var connector = getConnectorType();
 	var level = getChargingLevel();
 	var networks = getNetworks();
+
+	if (bRoute) distance = 1.0;
 
 	var urlString, queryString;
 
@@ -75,16 +90,23 @@ function getNrelUrlString(bRoute) {
 	return urlString + queryString;
 }
 
+
+
 // get ev stations from nrel and map them
 function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 	var locations = new Array();
 	var urlString = getNrelUrlString(bRoute);
 	var methodType;
 
+	lat1 = formatCoords(lat1);
+	lng1 = formatCoords(lng1);
+	lat2 = formatCoords(lat2);
+	lng2 = formatCoords(lng2);
+
 	if (!bRoute) {
 		urlString += `&latitude=${lat1}&longitude=${lng1}`;
 	} else {
-		urlString += `&route=LINESTRING(${lat1} ${lng1}, ${lat2} ${lng2})`;
+		urlString += `&route=LINESTRING(${lng1}${lat1},${lng2}${lat2})`;
 	}
 
 	if (!bRoute) methodType = 'GET';
@@ -92,10 +114,8 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 
 	$.ajax({
     url: urlString,
-    dataType: 'json',
-    method: methodType,
+    method: 'GET',
     crossDomain: true,
-    contentType: 'application/x-www-form-urlencoded',
 		success: function(json){    
 	    var fuel_stations = json.fuel_stations;
 	    var index = 0;
@@ -125,9 +145,7 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 	    $('#results').html(str);
 	}}).then(function(){
 		var bounds = new google.maps.LatLngBounds();
-		map = new google.maps.Map(document.getElementById('map'), {
-		  zoom: 5
-		});
+		
 		var pos = {
       lat: lat1,
       lng: lng1
@@ -141,7 +159,8 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
       marker = new google.maps.Marker({
         position: position,
         map: map,
-        title: locations[i][0]
+        title: locations[i][0],
+        icon: 'blue-plug.png'
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -161,7 +180,7 @@ function initRoute() {
   var directionsDisplay = new google.maps.DirectionsRenderer();
 
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 7
+    zoom: 5
   });
 
   directionsDisplay.setMap(map);
@@ -193,7 +212,7 @@ function initMap() {
       };
 
       map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 7,
+        zoom: 5,
         center: {lat: pos.lat, lng: pos.lng}
       });
 
