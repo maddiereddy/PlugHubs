@@ -124,7 +124,7 @@ footer {
 	padding: 8px;
 	margin-left: 24px;
 	width: 60%;
-	height: 20px;
+	height: 24px;
 }
 
 .sidebar-links div > a {
@@ -193,6 +193,27 @@ footer {
 
 .sidebar-links div.link-orange > a {
   border-color: darkorange;
+}
+
+#trip-form input[type="text"] {
+  padding: 6px;
+  margin-top: 0.2em;
+  font-size: 12px;
+  border: none;
+}
+
+#trip-form input[type="submit"] {
+  padding: 6px 10px;
+  margin-top: 0.2em;
+  margin-right: 16px;
+  background: lightgray;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+#trip-form input[type="submit"]:hover {
+  background: darkgray;
 }
 
 section {

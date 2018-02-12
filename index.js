@@ -309,7 +309,7 @@ $(document).ready(function() {
     var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
     if (keycode === 13) { // keycode for enter key
       // force the 'Enter Key' to implicitly click the submit button
-      document.getElementById('submit').click();
+      document.getElementById('search').click();
     }
   }); 
 
