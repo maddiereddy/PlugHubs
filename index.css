@@ -37,7 +37,7 @@ footer {
   float: right;
 }
 
-.tablink {
+.tab-link {
   padding: 8px 10px;
   margin-top: 0.2em;
   background: lightgray;
@@ -46,7 +46,7 @@ footer {
   cursor: pointer;
 }
 
-.tablink:hover {
+.tab-link:hover {
   background: darkgray;
 }
 
@@ -109,7 +109,7 @@ footer {
   display: block;
 }
 
-.sidenav .closebtn {
+.sidenav .close-btn {
   position: absolute;
   top: 0;
   right: 25px;

@@ -274,14 +274,14 @@ function openPage(pageName) {
 
 // Open Side Navbar menu
 function openNav() {
-  $("#mySidenav")[0].style.width = "250px";
+  $("#my-sidenav")[0].style.width = "250px";
   $("#main")[0].style.marginLeft = "250px";
   $("#main")[0].style.width = "calc(100% - 250px)";
 }
 
 // Close Side Navbar menu
 function closeNav() {
-  $("#mySidenav")[0].style.width = "0";
+  $("#my-sidenav")[0].style.width = "0";
   $("#main")[0].style.marginLeft= "0";
   $("#main")[0].style.width = "100%";
 }
