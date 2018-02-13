@@ -4,7 +4,8 @@
   "description": "API Capstone project for Thinkful Full Stack Flex program",
   "main": "index.js",
   "scripts": {
-    "start": "http-server ./ -p ${PORT:=8010} -c-1 --ssl --cors",
+    "local": "http-server -a localhost -p 8010 -c-1 --cors -o",
+    "start": "http-server -a cryptic-ridge-36942.herokuapp.com --ssl",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,8 +20,5 @@
   "homepage": "https://github.com/maddiereddy/PlugHubs#readme",
   "dependencies": {
     "http-server": "^0.11.1"
-  },
-  "engines": {
-    "npm": "5.6.0"
   }
 }
