@@ -7,15 +7,17 @@ function mapRoute(directionsService, directionsDisplay) {
   var lat1, lat2, lng1, lng2, pos1, pos2;
 
   directionsService.route({
-    origin: document.getElementById('from').value,
-    destination: document.getElementById('to').value,
+    origin: $('#from').val(),
+    destination: $('#to').val(),
     travelMode: 'DRIVING'
   }, 
   function(response, status) {
     if (status === 'OK') {
       directionsDisplay.setOptions({
         polylineOptions: {
-          strokeColor: 'red'
+          strokeColor: 'red', 
+          strokeWeight: 8,
+          strokeOpacity: 0.8
         }
       });
       directionsDisplay.setMap(map);
@@ -34,7 +36,7 @@ function mapRoute(directionsService, directionsDisplay) {
 
 // Get all filter selections
 function getDistance() {
-  var e = document.getElementById('radius');
+  var e = $('#radius')[0];
   return  parseFloat(e.options[e.selectedIndex].value);
 }
 
@@ -48,11 +50,12 @@ function getConnectorType() {
 
 function getNetworks() {
   var checkArray = new Array(); 
-  var items = document.getElementsByClassName('network');
 
-  for (var i = 0; i < items.length; i++){
-    if (items[i].checked) checkArray.push(items[i].value);
-  }
+  // look for all checkboes that have a class 'network' attached to it and check if it was checked 
+  $(".network:checked").each(function() {
+    checkArray.push($(this).val());
+  });
+
   return checkArray.join(',');
 }
 
@@ -179,23 +182,21 @@ function initRoute() {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 5
-  });
+  map = new google.maps.Map($('#map')[0], {zoom: 5});
 
   directionsDisplay.setMap(map);
 
   var onMapIt = function() {
     mapRoute(directionsService, directionsDisplay);
   };
-  document.getElementById('route').addEventListener('click', onMapIt);
+
+  $('#route').on('click', () => onMapIt());
 
   $("#to").bind("keydown", function(event) {
     // track enter key
     var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
     if (keycode === 13) { // keycode for enter key
-      // force the 'Enter Key' to implicitly click the submit button
-      document.getElementById('route').click();
+      $('#route').click();// force the 'Enter Key' to implicitly click the submit button
     }
   }); 
 }
@@ -211,7 +212,7 @@ function initMap() {
         lng: position.coords.longitude
       };
 
-      map = new google.maps.Map(document.getElementById('map'), {
+      map = new google.maps.Map($('#map')[0], {
         zoom: 5,
         center: {lat: pos.lat, lng: pos.lng}
       });
@@ -238,16 +239,14 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function searchAddress() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 5
-  });
+  map = new google.maps.Map($('#map')[0], {zoom: 5});
 
   var geocoder = new google.maps.Geocoder();
   geocodeAddress(geocoder, map);
 }
 
 function geocodeAddress(geocoder, resultsMap) {
-  var address = document.getElementById('address').value;
+  var address = $('#address').val();
 
   geocoder.geocode({'address': address}, function(results, status) {
     if (status === 'OK') {
@@ -286,7 +285,7 @@ function closeNav() {
   $("#main")[0].style.width = "100%";
 }
 
-$(document).ready(function() {
+$(function() {
 
   const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}`;
   let scriptNode = $('<script></script>').attr('src', URL);
@@ -296,25 +295,15 @@ $(document).ready(function() {
   $('body').append(scriptNode);
 
   // add onclick listeners to buttons 'map view' and 'list view' to open appropriate view
-  $('#map-view').on('click', function() {
-    openPage('map');
-  });
-  $('#list-view').on('click', function() {
-    openPage('results');
-  });
+  $('#map-view').on('click', () => openPage('map'));
+  $('#list-view').on('click', () => openPage('results'));
 
   // add on click listener to menu to open and close sidenav
-  $('#open-menu').on('click', function() {
-    openNav();
-  });
-  $('#close-menu').on('click', function() {
-    closeNav();
-  });
+  $('#open-menu').on('click', () => openNav());
+  $('#close-menu').on('click', () => closeNav());
 
   // add on click listener to search button to search address
-  $('#search').on('click', function() {
-    searchAddress();
-  });
+  $('#search').on('click', () => searchAddress());
 
   // show and hide divs accordion style
   var links = $('.sidebar-links > div');
@@ -329,11 +318,11 @@ $(document).ready(function() {
     // track enter key
     var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
     if (keycode === 13) { // keycode for enter key
-      // force the 'Enter Key' to implicitly click the submit button
-      document.getElementById('search').click();
+      $('#search').click(); // force the 'Enter Key' to implicitly click the submit button
     }
   }); 
 
+  // open up map view first
   $('#map-view').click();
   initMap();
 
