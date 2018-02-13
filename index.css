@@ -7,6 +7,7 @@ body {
 
 div.container {
   width: 100%;
+  height: 100%;
   border: 1px solid gray;
 }
 
@@ -15,13 +16,13 @@ header, footer {
   background-color: #333333;
   clear: left;
   overflow: hidden;
-	padding: 1em;
+  padding: 1em;
 }
 
 .menu {
-	font-size: 30px;
-	cursor: pointer;
-	float: left;
+  font-size: 30px;
+  cursor: pointer;
+  float: left;
   display: block;
   padding: 0px 16px;
   text-decoration: none;
@@ -29,11 +30,11 @@ header, footer {
 }
 
 footer {
-	text-align: center;
+  text-align: center;
 }
 
 .tab-container {
-	float: right;
+  float: right;
 }
 
 .tablink {
@@ -102,7 +103,7 @@ footer {
 }
 
 .sidenav h2 {
-	padding: 8px 8px 8px 24px;
+  padding: 8px 8px 8px 24px;
   font-size: 18px;
   color: white;
   display: block;
@@ -117,14 +118,14 @@ footer {
 }
 
 .sidebar-links {
-	padding: 8px 8px 8px 24px;
+  padding: 8px 8px 8px 24px;
 }
 
 .sidebar-links select.distance {
-	padding: 8px;
-	margin-left: 24px;
-	width: 60%;
-	height: 24px;
+  padding: 8px;
+  margin-left: 24px;
+  width: 60%;
+  height: 24px;
 }
 
 .sidebar-links div > a {
@@ -223,11 +224,11 @@ section {
 }
 
 #map, #results {
-	height: 600px;
+  height: 600px;
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 
 table {
@@ -243,10 +244,10 @@ th {
 }
 
 td {
-	border: 1px solid darkgray;
-	font-size: 12px;
-	text-align: left
-	padding: 5px 10px;
+  border: 1px solid darkgray;
+  font-size: 12px;
+  text-align: left
+  padding: 5px 10px;
 }
 
 tr:nth-child(odd) {
@@ -258,8 +259,8 @@ tr:nth-child(odd) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
   .search-container, .tab-container {
-  	padding: 8px;
-  	float: left;
-  	display: block;
+    padding: 8px;
+    float: left;
+    display: block;
   }
 }
