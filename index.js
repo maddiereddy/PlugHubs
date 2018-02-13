@@ -295,6 +295,27 @@ $(document).ready(function() {
   scriptNode.attr('defer', 'defer');
   $('body').append(scriptNode);
 
+  // add onclick listeners to buttons 'map view' and 'list view' to open appropriate view
+  $('#map-view').on('click', function() {
+    openPage('map');
+  });
+  $('#list-view').on('click', function() {
+    openPage('results');
+  });
+
+  // add on click listener to menu to open and close sidenav
+  $('#open-menu').on('click', function() {
+    openNav();
+  });
+  $('#close-menu').on('click', function() {
+    closeNav();
+  });
+
+  // add on click listener to search button to search address
+  $('#search').on('click', function() {
+    searchAddress();
+  });
+
   // show and hide divs accordion style
   var links = $('.sidebar-links > div');
 
@@ -313,6 +334,7 @@ $(document).ready(function() {
     }
   }); 
 
+  $('#map-view').click();
   initMap();
 
 });
