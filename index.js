@@ -6,6 +6,8 @@ var map, infoWindow, marker;
 function mapRoute(directionsService, directionsDisplay) {
   var lat1, lat2, lng1, lng2, pos1, pos2;
 
+  directionsDisplay.setMap(map);
+
   directionsService.route({
     origin: $('#from').val(),
     destination: $('#to').val(),
@@ -158,7 +160,8 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 
     for (var i = 0; i < locations.length; i++) { 
       var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
-      bounds.extend(position);
+      // bounds.extend(position);
+
       marker = new google.maps.Marker({
         position: position,
         map: map,
@@ -174,7 +177,7 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
       })(marker, i));
     }
 
-    map.fitBounds(bounds);
+    // map.fitBounds(bounds);
   });
 }
 
@@ -182,15 +185,9 @@ function initRoute() {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
 
-  map = new google.maps.Map($('#map')[0], {zoom: 5});
+  // map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
 
-  directionsDisplay.setMap(map);
-
-  var onMapIt = function() {
-    mapRoute(directionsService, directionsDisplay);
-  };
-
-  $('#route').on('click', () => onMapIt());
+  $('#route').on('click', () => mapRoute(directionsService, directionsDisplay));
 
   $("#to").bind("keydown", function(event) {
     // track enter key
@@ -204,6 +201,12 @@ function initRoute() {
 
 // Initialize app with geolocation
 function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12
+  });
+
+  infoWindow = new google.maps.InfoWindow;
+
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -212,10 +215,13 @@ function initMap() {
         lng: position.coords.longitude
       };
 
-      map = new google.maps.Map($('#map')[0], {
-        zoom: 5,
-        center: {lat: pos.lat, lng: pos.lng}
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: 'Current Location'
       });
+
+      map.setCenter(pos);
 
       mapEVStations(pos.lat, pos.lng, 0, 0, false);
 
@@ -239,19 +245,25 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function searchAddress() {
-  map = new google.maps.Map($('#map')[0], {zoom: 5});
-
-  var geocoder = new google.maps.Geocoder();
-  geocodeAddress(geocoder, map);
-}
-
-function geocodeAddress(geocoder, resultsMap) {
   var address = $('#address').val();
+  var geocoder = new google.maps.Geocoder();
 
   geocoder.geocode({'address': address}, function(results, status) {
     if (status === 'OK') {
       var pos = results[0].geometry.location;
 
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12
+      });
+
+      infoWindow = new google.maps.InfoWindow;
+
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map
+      });
+
+      map.setCenter(pos);
       mapEVStations(pos.lat(), pos.lng(), 0, 0, false);
    
     } else {
@@ -287,7 +299,7 @@ function closeNav() {
 
 $(function() {
 
-  const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}`;
+  const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
   let scriptNode = $('<script></script>').attr('src', URL);
   
   scriptNode.attr('async', 'async');
@@ -324,6 +336,4 @@ $(function() {
 
   // open up map view first
   $('#map-view').click();
-  initMap();
-
 });
