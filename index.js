@@ -68,7 +68,7 @@ function formatCoords(str) {
   var prefix;
   prefix = parseFloat(str) > 0 ? '+' : '';
 
-  return prefix+str;
+  return (`${prefix}${str}`);
 }
 
 function getNrelUrlString(bRoute) {
@@ -100,7 +100,7 @@ function getNrelUrlString(bRoute) {
     urlString = `${stationServiceUrl}nearby-route.json?`;
   }
 
-  return urlString + queryString;
+  return (`${urlString}${queryString}`);
 }
 
 function drawMarkers(lat1, lng1, locations) {
@@ -138,6 +138,8 @@ function getStations(locations, results) {
               <th>#</th><th>Name</th> <th>Address</th><th>Phone</th>
               <th>Hours of operation</th><th>Distance (miles)</th>
             </tr>`;
+  var data = [];
+  data.push(str);
   
   $.each(fuel_stations, function(index, station) {
     index++;
@@ -150,14 +152,14 @@ function getStations(locations, results) {
     loc.push(station.longitude);
     locations.push(loc);
 
-    str += `<tr>
+    data.push(`<tr>
               <td>${index}</td><td>${station.station_name}</td>
               <td>${address}</td><td>${station.station_phone}</td>
               <td>${station.access_days_time}</td><td>${distance}</td>
-            </tr>`
+            </tr>`);
   })
 
-  $('#results').html(str);
+  $('#results').html(data);
 
   return locations;
 }
@@ -165,7 +167,8 @@ function getStations(locations, results) {
 // get ev stations from nrel and map them
 function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
   var locations = new Array();
-  var urlString = getNrelUrlString(bRoute);
+  var nrelString = getNrelUrlString(bRoute);
+  var coordString, urlString;
   var methodType;
 
   lat1 = formatCoords(lat1);
@@ -174,13 +177,15 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
   lng2 = formatCoords(lng2);
 
   if (!bRoute) {
-    urlString += `&latitude=${lat1}&longitude=${lng1}`;
+    coordString = `&latitude=${lat1}&longitude=${lng1}`;
   } else {
-    urlString += `&route=LINESTRING(${lng1}${lat1},${lng2}${lat2})`;
+    coordString = `&route=LINESTRING(${lng1}${lat1},${lng2}${lat2})`;
   }
 
   if (!bRoute) methodType = 'GET';
   else methodType = 'POST'; 
+
+  urlString = `${nrelString}${coordString}`;
 
   $.ajax({
     url: urlString,
