@@ -1,0 +1,115 @@
+const DISTANCE = [2, 5, 10, 25, 50, 100, 250, 500];
+
+const CONNECTOR_TYPE = [
+  {
+    "id": "ct0",
+    "value": "all",
+    "text": "All"
+  },
+  {
+    "id": "ct1",
+    "value": "NEMA515",
+    "text": "NEMA 5-15 (Level 1)"
+  },
+  {
+    "id": "ct2",
+    "value": "NEMA520",
+    "text": "NEMA 5-20 (Level 1)"
+  },
+  {
+    "id": "ct3",
+    "value": "NEMA1450",
+    "text": "NEMA 14-50 (Level 1)"
+  },
+  {
+    "id": "ct4",
+    "value": "JI772",
+    "text": "J1772 (Level 2)"
+  },
+  {
+    "id": "ct5",
+    "value": "CHADEMO",
+    "text": "CHAdeMO (DC fast charging)"
+  },
+  {
+    "id": "ct6",
+    "value": "J1772COMBO",
+    "text": "SAE J1772 Combo (DC fast charging)"
+  },
+  {
+    "id": "ct7",
+    "value": "TESLA",
+    "text": "Tesla (DC fast charging and Level 2)"
+  }
+];
+
+const NETWORK = [
+  {
+    "id": "nw1",
+    "value": "AeroVironment Network"
+  },
+  {
+    "id": "nw2",
+    "value": "Blink Network"
+  },
+  {
+    "id": "nw3",
+    "value": "ChargePoint Network"
+  },
+  {
+    "id": "nw4",
+    "value": "EV Connect"
+  },
+  {
+    "id": "nw5",
+    "value": "eVgo Network"
+  },
+  {
+    "id": "nw6",
+    "value": "GE WattStation"
+  },
+  {
+    "id": "nw7",
+    "value": "OpConnect"
+  },
+  {
+    "id": "nw8",
+    "value": "SemaCharge Network"
+  },
+  {
+    "id": "nw9",
+    "value": "Tesla"
+  },
+  {
+    "id": "nw10",
+    "value": "Greenlots"
+  }
+];
+
+const CHARGING_LEVEL = [
+  {
+    "id": "cl0",
+    "value": "all",
+    "text": "All"
+  },
+  {
+    "id": "cl1",
+    "value": "1",
+    "text": "Level 1 EVSE (standard 110V outlet)"
+  },
+  {
+    "id": "cl2",
+    "value": "2",
+    "text": "Level2 EVSE (J1772 connector)"
+  },
+  {
+    "id": "cl3",
+    "value": "dc_fast",
+    "text": "DC Fast Charging"
+  },
+  {
+    "id": "cl4",
+    "value": "legacy",
+    "text": "Legacy charging systems"
+  }
+];

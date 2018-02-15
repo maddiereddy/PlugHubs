@@ -309,6 +309,78 @@ function closeNav() {
   $("#main")[0].style.width = "100%";
 }
 
+function popDistance() {
+  var data = [];
+  var dist = DISTANCE;
+
+  $(dist).map(function(i, item) {
+   data.push(`<option value="${item}">${item} mile</option>`);
+   });
+
+  $('#radius').append(data);
+}
+
+function popConnectorType() {
+  var data = [];
+  var connector = CONNECTOR_TYPE;
+  var strChecked = "";
+
+  $(connector).map(function(i, item) {
+    
+    if (i === 0) {
+      strChecked = "checked";
+    } else {
+      strChecked = "";
+    }
+
+    data.push(`
+      <li>
+        <input type="radio" id="${item.id}" value="${item.value}" name="connector-type" ${strChecked}>
+        <label for="${item.id}">${item.text}</label>
+      </li> `);
+    });
+
+  $('#connector').append(data);
+}
+
+function popNetworks() {
+  var data = [];
+  var network = NETWORK;
+
+  $(network).map(function(i, item) {
+    data.push(`
+      <li>
+        <input type="checkbox" id="${item.id}" value="${item.value}" name="network" checked>
+        <label for="${item.id}">${item.value}</label>
+      </li> `);
+    });
+
+  $('#networks').append(data);
+}
+
+function popChargingLevels() {
+  var data = [];
+  var charging = CHARGING_LEVEL;
+  var strChecked = "";
+
+  $(charging).map(function(i, item) {
+    
+    if (i === 0) {
+      strChecked = "checked";
+    } else {
+      strChecked = "";
+    }
+
+    data.push(`
+      <li>
+        <input type="radio" id="${item.id}" value="${item.value}" name="charging-level" ${strChecked}>
+        <label for="${item.id}">${item.text}</label>
+      </li> `);
+    });
+
+  $('#charging').append(data);
+}
+
 $(function() {
 
   const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
@@ -317,6 +389,12 @@ $(function() {
   scriptNode.attr('async', 'async');
   scriptNode.attr('defer', 'defer');
   $('body').append(scriptNode);
+
+  // populate sidebar elements
+  popDistance();
+  popConnectorType();
+  popNetworks();
+  popChargingLevels();
 
   // add onclick listeners to buttons 'map view' and 'list view'
   $('#map-view').on('click', () => openPage('map'));
