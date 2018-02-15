@@ -121,14 +121,14 @@ footer {
   padding: 8px 8px 8px 24px;
 }
 
-.sidebar-links select.distance {
+.sidebar-links .distance {
   padding: 8px;
   margin-left: 24px;
   width: 60%;
   height: 24px;
 }
 
-.sidebar-links div > a {
+.sidebar-links a {
   display: block;
   text-decoration: none;
   margin: 0 auto 5px auto;
@@ -143,14 +143,14 @@ footer {
   border-left-style: solid;
 }
 
-.sidebar-links div.selected > a {
+.sidebar-links .selected  a {
   background-color: #ffffff;
   color: #565d63;
   line-height: 2.3;
   margin: 0;
 }
 
-.sidebar-links div .sub-links {
+.sidebar-links .sub-links {
   max-height: 0;
   overflow: hidden;
   list-style: none;
@@ -163,12 +163,12 @@ footer {
   transition: 0.4s;
 }
 
-.sidebar-links div.selected .sub-links {
+.sidebar-links .selected .sub-links {
   max-height: 300px;
   padding: 12px 0 12px 10px;
 }
 
-.sidebar-links div .sub-links a {
+.sidebar-links .sub-links a {
   text-decoration: none;
   color: #b3bcc5;
   display: block;
@@ -176,23 +176,23 @@ footer {
 }
 /* Link Colors */
 
-.sidebar-links div.link-blue > a {
+.sidebar-links .link-blue a {
   border-color: blue;
 }
 
-.sidebar-links div.link-red > a {
+.sidebar-links .link-red a {
   border-color: red;
 }
 
-.sidebar-links div.link-yellow > a {
+.sidebar-links .link-yellow a {
   border-color: yellow;
 }
 
-.sidebar-links div.link-green > a {
+.sidebar-links .link-green a {
   border-color: lawngreen;
 }
 
-.sidebar-links div.link-orange > a {
+.sidebar-links .link-orange a {
   border-color: darkorange;
 }
 
