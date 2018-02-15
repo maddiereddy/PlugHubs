@@ -2,33 +2,36 @@
 
 var map, infoWindow, marker;
 
+// draw Route according to user input
+function drawRoute(response, directionsDisplay) {
+  directionsDisplay.setOptions({
+    polylineOptions: {
+      strokeColor: 'red', 
+      strokeWeight: 8,
+      strokeOpacity: 0.8
+    }
+  });
+  directionsDisplay.setMap(map);
+  directionsDisplay.setDirections(response);
+
+  const leg = response.routes[0].legs[0];
+  let [pos1, pos2] = [leg.start_location, leg.end_location];
+
+  mapEVStations(pos1.lat(), pos1.lng(), pos2.lat(), pos2.lng(), true);
+}
+
 // create a route according to user input
 function mapRoute(directionsService, directionsDisplay) {
-  var lat1, lat2, lng1, lng2, pos1, pos2;
-
+  map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
   directionsDisplay.setMap(map);
 
   directionsService.route({
     origin: $('#from').val(),
     destination: $('#to').val(),
     travelMode: 'DRIVING'
-  }, 
-  function(response, status) {
+  }, function(response, status) {
     if (status === 'OK') {
-      directionsDisplay.setOptions({
-        polylineOptions: {
-          strokeColor: 'red', 
-          strokeWeight: 8,
-          strokeOpacity: 0.8
-        }
-      });
-      directionsDisplay.setMap(map);
-      directionsDisplay.setDirections(response);
-
-      pos1 = response.routes[0].legs[0].start_location;
-      pos2 = response.routes[0].legs[0].end_location;
-
-      mapEVStations(pos1.lat(), pos1.lng(), pos2.lat(), pos2.lng(), true);
+      drawRoute(response, directionsDisplay);
     } else {
       window.alert('Directions request failed due to ' + status);
     }
@@ -53,8 +56,8 @@ function getConnectorType() {
 function getNetworks() {
   var checkArray = new Array(); 
 
-  // look for all checkboes that have a class 'network' attached to it and check if it was checked 
-  $(".network:checked").each(function() {
+  // look for all checkboxes of class 'network' attached to it and if checked 
+  $('.network:checked').each(function() {
     checkArray.push($(this).val());
   });
 
@@ -77,14 +80,19 @@ function getNrelUrlString(bRoute) {
   var connector = getConnectorType();
   var level = getChargingLevel();
   var networks = getNetworks();
+  var limit = 100;
 
-  if (bRoute) distance = 1.0;
+  if (bRoute) {
+    distance = 1.0;
+    limit = 'all';
+  }
 
   var urlString, queryString;
 
-  queryString = `api_key=${NREL_API_KEY}&fuel_type=${fuelType}&access=${access}&status=${status}
-              &radius=${distance}&limit=${100}&ev_charging_level=${level}
-              &ev_connector_type=${connector}&ev_network=${networks}`;
+  queryString = `api_key=${NREL_API_KEY}&fuel_type=${fuelType}
+      &access=${access}&status=${status}&radius=${distance}
+      &limit=${limit}&ev_charging_level=${level}
+      &ev_connector_type=${connector}&ev_network=${networks}`;
 
   if (!bRoute) {
     urlString = `${stationServiceUrl}nearest.json?`;
@@ -95,7 +103,64 @@ function getNrelUrlString(bRoute) {
   return urlString + queryString;
 }
 
+function drawMarkers(lat1, lng1, locations) {
+  var bounds = new google.maps.LatLngBounds();
+    
+  var pos = { lat: lat1, lng: lng1 };
 
+  infoWindow = new google.maps.InfoWindow();
+
+  for (var i = 0; i < locations.length; i++) { 
+    var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
+    // bounds.extend(position);
+
+    marker = new google.maps.Marker({
+      position: position,
+      map: map,
+      title: locations[i][0],
+      icon: 'blue-plug.png'
+    });
+
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+      return function() {
+        infoWindow.setContent(locations[i][0]);
+        infoWindow.open(map, marker);
+      }
+    })(marker, i));
+  }
+
+  // map.fitBounds(bounds);
+}
+
+function getStations(locations, results) {
+  var fuel_stations = results.fuel_stations;
+  var str = `<tr>
+              <th>#</th><th>Name</th> <th>Address</th><th>Phone</th>
+              <th>Hours of operation</th><th>Distance (miles)</th>
+            </tr>`;
+  
+  $.each(fuel_stations, function(index, station) {
+    index++;
+    var address = `${station.street_address}, ${station.city}, ${station.state} ${station.zip}`;
+    var distance = station.distance.toFixed(2);
+    var loc = [];
+
+    loc.push(address);
+    loc.push(station.latitude);
+    loc.push(station.longitude);
+    locations.push(loc);
+
+    str += `<tr>
+              <td>${index}</td><td>${station.station_name}</td>
+              <td>${address}</td><td>${station.station_phone}</td>
+              <td>${station.access_days_time}</td><td>${distance}</td>
+            </tr>`
+  })
+
+  $('#results').html(str);
+
+  return locations;
+}
 
 // get ev stations from nrel and map them
 function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
@@ -121,63 +186,10 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
     url: urlString,
     method: 'GET',
     crossDomain: true,
-    success: function(json){    
-      var fuel_stations = json.fuel_stations;
-      var index = 0;
-      var str = `<tr>
-                  <th>#</th><th>Name</th> <th>Address</th><th>Phone</th>
-                  <th>Hours of operation</th><th>Distance (miles)</th>
-                </tr>`;
-      
-      $.each(fuel_stations, function(index, station) {
-        index++;
-        var address = `${station.street_address}, ${station.city}, ${station.state} ${station.zip}`;
-        var distance = station.distance.toFixed(2);
-        var loc = [];
-
-        loc.push(address);
-        loc.push(station.latitude);
-        loc.push(station.longitude);
-        locations.push(loc);
-
-        str += `<tr>
-                  <td>${index}</td><td>${station.station_name}</td>
-                  <td>${address}</td><td>${station.station_phone}</td>
-                  <td>${station.access_days_time}</td><td>${distance}</td>
-                </tr>`
-      })
-
-      $('#results').html(str);
+    success: function(results){    
+      locations = getStations(locations, results);
   }}).then(function(){
-    var bounds = new google.maps.LatLngBounds();
-    
-    var pos = {
-      lat: lat1,
-      lng: lng1
-    };
-
-    infoWindow = new google.maps.InfoWindow();
-
-    for (var i = 0; i < locations.length; i++) { 
-      var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
-      // bounds.extend(position);
-
-      marker = new google.maps.Marker({
-        position: position,
-        map: map,
-        title: locations[i][0],
-        icon: 'blue-plug.png'
-      });
-
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infoWindow.setContent(locations[i][0]);
-          infoWindow.open(map, marker);
-        }
-      })(marker, i));
-    }
-
-    // map.fitBounds(bounds);
+    drawMarkers(lat1, lng1, locations);
   });
 }
 
@@ -185,7 +197,7 @@ function initRoute() {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
 
-  // map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
+  //map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
 
   $('#route').on('click', () => mapRoute(directionsService, directionsDisplay));
 
@@ -210,10 +222,9 @@ function initMap() {
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+
+      const coords = position.coords;  
+      var pos = { lat: coords.latitude, lng: coords.longitude };
 
       var marker = new google.maps.Marker({
         position: pos,
@@ -222,9 +233,7 @@ function initMap() {
       });
 
       map.setCenter(pos);
-
       mapEVStations(pos.lat, pos.lng, 0, 0, false);
-
       initRoute();
 
     }, function() {
@@ -244,28 +253,31 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
+function drawMap(results) {
+  var pos = results[0].geometry.location;
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12
+  });
+
+  infoWindow = new google.maps.InfoWindow;
+
+  var marker = new google.maps.Marker({
+    position: pos,
+    map: map
+  });
+
+  map.setCenter(pos);
+  mapEVStations(pos.lat(), pos.lng(), 0, 0, false);  
+}
+
 function searchAddress() {
   var address = $('#address').val();
   var geocoder = new google.maps.Geocoder();
 
   geocoder.geocode({'address': address}, function(results, status) {
     if (status === 'OK') {
-      var pos = results[0].geometry.location;
-
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12
-      });
-
-      infoWindow = new google.maps.InfoWindow;
-
-      var marker = new google.maps.Marker({
-        position: pos,
-        map: map
-      });
-
-      map.setCenter(pos);
-      mapEVStations(pos.lat(), pos.lng(), 0, 0, false);
-   
+      drawMap(results);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
@@ -306,7 +318,7 @@ $(function() {
   scriptNode.attr('defer', 'defer');
   $('body').append(scriptNode);
 
-  // add onclick listeners to buttons 'map view' and 'list view' to open appropriate view
+  // add onclick listeners to buttons 'map view' and 'list view'
   $('#map-view').on('click', () => openPage('map'));
   $('#list-view').on('click', () => openPage('results'));
 
