@@ -1,2 +1,2 @@
-secrets.js filter=git-crypt diff=git-crypt
+config.js filter=git-crypt diff=git-crypt
 	*.key filter=git-crypt diff=git-crypt
