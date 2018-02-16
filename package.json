@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "local": "http-server -a localhost -p 8010 -c-1 --cors -o",
-    "start": "http-server -a cryptic-ridge-36942.herokuapp.com --ssl",
+    "start": "http-server index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
