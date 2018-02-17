@@ -5,18 +5,35 @@ body {
   font-family: Arial;
 }
 
-div.container {
-  width: 100%;
-  height: 100%;
-  border: 1px solid gray;
-}
-
 header, footer {
+  width: 100%;
+  position: fixed;
   color: white;
   background-color: #333333;
-  clear: left;
+  left: 0;
   overflow: hidden;
   padding: 1em;
+}
+
+header {
+  top: 0;
+  height: 60px;
+}
+
+footer {
+  bottom: 0;
+  height: 40px;
+  text-align: center;
+  font-size: 12px
+}
+
+main {
+  position: absolute;
+  width: 100%;
+  top: 60px;
+  bottom: 40px;
+  background-color: gray;
+  display: block;
 }
 
 .menu {
@@ -24,21 +41,17 @@ header, footer {
   cursor: pointer;
   float: left;
   display: block;
-  padding: 0px 16px;
+  padding: 0px 10px;
   text-decoration: none;
   color: deepskyblue;
-}
-
-footer {
-  text-align: center;
 }
 
 .tab-container {
   float: right;
 }
 
-.tab-link {
-  padding: 8px 10px;
+.tab-link, .apply {
+  padding: 8px 8px;
   margin-top: 0.2em;
   background: lightgray;
   font-size: 13px;
@@ -46,7 +59,7 @@ footer {
   cursor: pointer;
 }
 
-.tab-link:hover {
+.tab-link:hover, .apply:hover{
   background: darkgray;
 }
 
@@ -63,6 +76,7 @@ footer {
 
 .search-container button {
   float: right;
+  width: 30px;
   padding: 6px 10px;
   margin-top: 0.2em;
   margin-right: 16px;
@@ -106,13 +120,31 @@ footer {
   padding: 8px 8px 8px 24px;
   font-size: 18px;
   color: white;
-  display: block;
+  display: inline-block;
+}
+
+.sidenav .apply {
+  float: right;
+  padding: 8px;
+  margin-top: 22px;
+  margin-right: 8px;
+  margin-left: 24px;
+}
+
+.sidenav hr {
+  height: 1px;
+  background-color: white;
+  width: 90%;
+  bottom: 20px;
+  left: 24px;
+  right: 8px;
+  top: 0px;
 }
 
 .sidenav .close-btn {
   position: absolute;
   top: 0;
-  right: 25px;
+  right: 8px;
   font-size: 36px;
   margin-left: 50px;
 }
@@ -217,14 +249,13 @@ footer {
   background: darkgray;
 }
 
-section {
-  border-left: 1px solid gray;
-  padding: 1em;
-  overflow: hidden;
-}
-
-#map, #results {
-  height: 600px;
+#map {
+  overflow: auto;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  bottom: 10px;
 }
 
 .hidden {
@@ -232,15 +263,27 @@ section {
 }
 
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+  display: block;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  bottom: 10px;
+  max-width: calc(100% - 20px);
+  max-height: calc(100% - 20px);
+  overflow-y: scroll; /*// to force a vertical scroll, table does not do overflow: auto*/
+  overflow-x: scroll;
+  table-layout: fixed;
 }
 
 th {
-    border: 2px solid darkgray;
-    text-align: center;
-    padding: 8px;
+  border: 2px solid darkgray;
+  text-align: center;
+  padding: 8px;
+  background-color: #333333;
+  color: white;
 }
 
 td {
@@ -248,19 +291,42 @@ td {
   font-size: 12px;
   text-align: left
   padding: 5px 10px;
+  height: inherit;
 }
 
 tr:nth-child(odd) {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
-/* TO-DO: Need to work on responsiveness */
-@media screen and (max-height: 450px) and and (max-width: 450px){
+@media screen and (max-width: 600px) {
+  header {
+    height: 120px;
+  }
+
+  main {
+    top: 120px;
+  }
+
+  .search-container, .tab-container {
+    float: left;
+    width: 100%;
+    margin-left: 10px;
+  }
+
+  .tab-links {
+    width: 25%;
+  }
+  .search-container button {
+    width: 30px;
+    float: left;
+  }
+  .search-container input[type='text'] {
+    float: left;
+    width: calc(50% - 30px);
+  }
+}
+
+@media screen and (max-height: 450px) and (max-width: 450px){
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
-  .search-container, .tab-container {
-    padding: 8px;
-    float: left;
-    display: block;
-  }
 }

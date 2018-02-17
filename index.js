@@ -1,6 +1,7 @@
 'use strict'
 
 var map, infoWindow, marker;
+var applyMap;
 
 // draw Route according to user input
 function drawRoute(response, directionsDisplay) {
@@ -112,7 +113,7 @@ function drawMarkers(lat1, lng1, locations) {
 
   for (var i = 0; i < locations.length; i++) { 
     var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
-    // bounds.extend(position);
+    bounds.extend(position);
 
     marker = new google.maps.Marker({
       position: position,
@@ -129,17 +130,18 @@ function drawMarkers(lat1, lng1, locations) {
     })(marker, i));
   }
 
-  // map.fitBounds(bounds);
+  map.fitBounds(bounds);
 }
 
 function getStations(locations, results) {
   var fuel_stations = results.fuel_stations;
-  var str = `<tr>
+  var str = `<thead><tr>
               <th>#</th><th>Name</th> <th>Address</th><th>Phone</th>
               <th>Hours of operation</th><th>Distance (miles)</th>
-            </tr>`;
+            </tr></thead>`;
   var data = [];
   data.push(str);
+  data.push(`<tbody>`);
   
   $.each(fuel_stations, function(index, station) {
     index++;
@@ -159,6 +161,7 @@ function getStations(locations, results) {
             </tr>`);
   })
 
+  data.push(`</tbody>`);
   $('#results').html(data);
 
   return locations;
@@ -204,7 +207,10 @@ function initRoute() {
 
   //map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
 
-  $('#route').on('click', () => mapRoute(directionsService, directionsDisplay));
+  $('#route').on('click', () => {
+    applyMap = false;
+    mapRoute(directionsService, directionsDisplay)
+  });
 
   $("#to").bind("keydown", function(event) {
     // track enter key
@@ -218,6 +224,8 @@ function initRoute() {
 
 // Initialize app with geolocation
 function initMap() {
+  applyMap = true;
+
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12
   });
@@ -303,15 +311,15 @@ function openPage(pageName) {
 // Open Side Navbar menu
 function openNav() {
   $("#my-sidenav")[0].style.width = "250px";
-  $("#main")[0].style.marginLeft = "250px";
-  $("#main")[0].style.width = "calc(100% - 250px)";
+  $("#page-container")[0].style.marginLeft = "250px";
+  $("#page-container")[0].style.width = "calc(100% - 250px)";
 }
 
 // Close Side Navbar menu
 function closeNav() {
   $("#my-sidenav")[0].style.width = "0";
-  $("#main")[0].style.marginLeft= "0";
-  $("#main")[0].style.width = "100%";
+  $("#page-container")[0].style.marginLeft= "0";
+  $("#page-container")[0].style.width = "100%";
 }
 
 function popDistance() {
@@ -410,7 +418,19 @@ $(function() {
   $('#close-menu').on('click', () => closeNav());
 
   // add on click listener to search button to search address
-  $('#search').on('click', () => searchAddress());
+  $('#search').on('click', () => {
+    applyMap = true;
+    searchAddress()
+  });
+
+  // add on click listener to search button to search address
+  $('#apply-filter').on('click', () => {
+    if (applyMap) {
+      $('#search').click();
+    } else {
+      $('#route').click();
+    }
+  });
 
   // show and hide divs accordion style
   var links = $('.sidebar-links > div');

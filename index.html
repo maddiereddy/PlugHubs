@@ -4,21 +4,20 @@
     <title>PlugHubs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="index.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div class="container" id="main">
+    <div class="container" id="page-container">
       <header role="banner">
         <span class="menu" id="open-menu">&#9776; PlugHubs</span>
         <div class="tab-container">
           <button class="tab-link" id="map-view">Map View</button>
           <button class="tab-link" id="list-view">List View</button>
         </div>
-        <div class="search-container">
+        <div role="search" class="search-container">
           <input id="address" type="text" name="search" placeholder="Search...">
           <button id="search" type="submit" value="search">
             <i class="fa fa-search"></i>
@@ -28,11 +27,12 @@
       <nav role="navigation" id="my-sidenav" class="sidenav">
         <a href="javascript:;" class="close-btn" id="close-menu">&times;</a>
         <h2>Filter by:</h2>
-
+        <button class="apply" id="apply-filter">Apply Filter</button>
+        <hr>
         <div class="sidebar-links">
 
-          <div class="link-blue selected">
-            <a href="javascript:;">Distance</a>
+          <div class="link-blue">
+            <a href="javascript:;">Distance (radius)</a>
             <ul class="sub-links">
               <select id="radius" class="distance">
               </select>
@@ -68,14 +68,15 @@
           </div>
         </div>  
       </nav>
-
-      <section role="region">
-        <div id="map"></div>
-      </section>
-      <section role="region">
-        <table id="results" class="hidden"></table>
-      </section>
-      <footer>Copyright &copy; maddiereddy.com</footer>
+      <main role="main">
+        <section role="region">
+          <div id="map"></div>
+        </section>
+        <section role="region">
+          <table id="results" class="hidden"></table>
+        </section>
+      </main>
+      <footer role="contentinfo">Copyright &copy; maddiereddy.com</footer>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
