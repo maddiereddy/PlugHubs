@@ -299,26 +299,23 @@ tr:nth-child(odd) {
 }
 
 @media screen and (max-width: 600px) {
-  header {
-    height: 120px;
-  }
-
-  main {
-    top: 120px;
-  }
+  header { height: 120px; }
+  main { top: 120px; }
 
   .search-container, .tab-container {
     float: left;
     width: 100%;
     margin-left: 10px;
   }
-
   .tab-links {
     width: 25%;
   }
   .search-container button {
     width: 30px;
     float: left;
+    padding: 6px 10px;
+    margin-top: 0.2em;
+    margin-right: 16px;
   }
   .search-container input[type='text'] {
     float: left;
