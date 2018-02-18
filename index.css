@@ -303,24 +303,20 @@ tr:nth-child(odd) {
   main { top: 100px; }
 
   .menu {
-    width: 49%;
+    width: 48%;
     padding: 0px;
     font-size: 24px;
   }
 
   .tab-container {
     float: right;
-    width: 50%;
+    width: 51%;
   }
 
-  .tab-container #list-view {
+  #map-view, #list-view {
     float: right;
     right: 0;
-  }
-
-  .tab-container #map-view {
-    float: right;
-    right: 0;
+    border: 1px solid gray;
   }
 
   .search-container{
