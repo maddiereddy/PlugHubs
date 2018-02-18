@@ -299,27 +299,45 @@ tr:nth-child(odd) {
 }
 
 @media screen and (max-width: 600px) {
-  header { height: 120px; }
-  main { top: 120px; }
+  header { height: 100px; }
+  main { top: 100px; }
 
-  .search-container, .tab-container {
-    float: left;
+  .menu {
+    width: 49%;
+    padding: 0px;
+    font-size: 24px;
+  }
+
+  .tab-container {
+    float: right;
+    width: 50%;
+  }
+
+  .tab-container #list-view {
+    float: right;
+    right: 0;
+  }
+
+  .tab-container #map-view {
+    float: right;
+    right: 0;
+  }
+
+  .search-container{
+    box-sizing: border-box;
+    float: left;  
     width: 100%;
-    margin-left: 10px;
+    margin: 0px;
   }
-  .tab-links {
-    width: 25%;
-  }
+ 
   .search-container button {
+    position: fixed;
     width: 30px;
-    float: left;
-    padding: 6px 10px;
-    margin-top: 0.2em;
-    margin-right: 16px;
+    float: right;
   }
   .search-container input[type='text'] {
     float: left;
-    width: calc(50% - 30px);
+    width: calc(100% - 30px);
   }
 }
 
