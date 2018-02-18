@@ -1,7 +1,7 @@
 'use strict'
 
 var map, infoWindow, marker;
-var applyMap;
+var applyMap, isInitial;
 
 // draw Route according to user input
 function drawRoute(response, directionsDisplay) {
@@ -208,6 +208,7 @@ function initRoute() {
   //map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
 
   $('#route').on('click', () => {
+    isInitial = false;
     applyMap = false;
     mapRoute(directionsService, directionsDisplay)
   });
@@ -395,6 +396,7 @@ function popChargingLevels() {
 }
 
 $(function() {
+  isInitial = true;
 
   const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
   let scriptNode = $('<script></script>').attr('src', URL);
@@ -419,16 +421,21 @@ $(function() {
 
   // add on click listener to search button to search address
   $('#search').on('click', () => {
+    isInitial = false;
     applyMap = true;
     searchAddress()
   });
 
   // add on click listener to search button to search address
   $('#apply-filter').on('click', () => {
-    if (applyMap) {
-      $('#search').click();
+    if (isInitial) {
+      initMap();
     } else {
-      $('#route').click();
+      if (applyMap) {
+        $('#search').click();
+      } else {
+        $('#route').click();
+      }
     }
   });
 
