@@ -14,17 +14,17 @@
       <header role="banner">
         <span class="menu" id="open-menu">&#9776; PlugHubs</span>
         <div class="tab-container">
-          <button class="tab-link" id="map-view">Map View</button>
-          <button class="tab-link" id="list-view">List View</button>
+          <button role="button" class="tab-link" id="map-view">Map View</button>
+          <button role="button" class="tab-link" id="list-view">List View</button>
         </div>
         <div role="search" class="search-container">
-          <input id="address" type="text" name="search" placeholder="Search...">
-          <button id="search" type="submit" value="search">
+          <input id="address" type="text" name="search" placeholder="By address, city or zip ..." aria-label="search">
+          <button role="button" id="search" type="submit" value="search" aria-label= "search">
             <i class="fa fa-search"></i>
           </button>
         </div>
       </header>
-      <nav role="navigation" id="my-sidenav" class="sidenav">
+      <nav role="navigation" id="my-sidenav" class="sidenav" aria-live="polite">
         <a href="javascript:;" class="close-btn" id="close-menu">&times;</a>
         <h2>Filter by:</h2>
         <button class="apply" id="apply-filter">Apply Filter</button>
@@ -33,27 +33,27 @@
 
           <div class="link-blue">
             <a href="javascript:;">Distance (radius)</a>
-            <ul class="sub-links">
-              <select id="radius" class="distance">
+            <div class="sub-links">
+              <select id="radius" class="distance" aria-label="search-radius">
               </select>
-            </ul>
+            </div>
           </div>
 
-          <div class="link-red">
+          <div id="filter-connector" class="link-red">
             <a href="javascript:;">Connector Type</a>
-            <ul class="sub-links" id="connector">
+            <ul role="group" class="sub-links" id="connector" aria-labelledby="filter-connector">
             </ul>
           </div>
 
-          <div class="link-yellow">
+          <div id="filter-network" class="link-yellow">
            <a href="javascript:;">Network</a>
-            <ul class="sub-links" id="networks">  
+            <ul role="group" class="sub-links" id="networks" aria-labelledby="filter-network">  
             </ul>
           </div>
 
-          <div class="link-green">
+          <div id="filter-charging" class="link-green">
            <a href="javascript:;">Charging Level</a>
-            <ul class="sub-links" id="charging">
+            <ul role="group" class="sub-links" id="charging" aria-labelledby="filter-charging">
             </ul>
           </div>
 
@@ -61,8 +61,8 @@
             <a href="javascript:;">Plan a Trip</a>
 
             <div id='trip-form' class="sub-links">
-              <input type="text" id="from" name="from" placeholder="From location..."><br>
-              <input type="text" id="to" name="to" placeholder="To location..."><br><br>
+              <input type="text" id="from" name="from" placeholder="From location..." aria-label="from"><br>
+              <input type="text" id="to" name="to" placeholder="To location..." aria-label="to"><br><br>
               <input id="route" type="submit" value="Map it">
             </div>
           </div>
@@ -70,10 +70,10 @@
       </nav>
       <main role="main">
         <section role="region">
-          <div id="map"></div>
+          <div id="map" aria-label="map" aria-live="assertive"></div>
         </section>
         <section role="region">
-          <table id="results" class="hidden"></table>
+          <table id="results" class="hidden" aria-label="list" aria-live="assertive"></table>
         </section>
       </main>
       <footer role="contentinfo">Copyright &copy; maddiereddy.com</footer>

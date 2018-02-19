@@ -1,6 +1,6 @@
 'use strict'
 
-var map, infoWindow, marker;
+var map, infoWindow, marker, bounds;
 var applyMap, isInitial;
 
 // draw Route according to user input
@@ -23,7 +23,8 @@ function drawRoute(response, directionsDisplay) {
 
 // create a route according to user input
 function mapRoute(directionsService, directionsDisplay) {
-  map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
+  map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
+  bounds = new google.maps.LatLngBounds();
   directionsDisplay.setMap(map);
 
   directionsService.route({
@@ -105,8 +106,6 @@ function getNrelUrlString(bRoute) {
 }
 
 function drawMarkers(lat1, lng1, locations) {
-  var bounds = new google.maps.LatLngBounds();
-    
   var pos = { lat: lat1, lng: lng1 };
 
   infoWindow = new google.maps.InfoWindow();
@@ -205,8 +204,6 @@ function initRoute() {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
 
-  //map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
-
   $('#route').on('click', () => {
     isInitial = false;
     applyMap = false;
@@ -227,10 +224,8 @@ function initRoute() {
 function initMap() {
   applyMap = true;
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12
-  });
-
+  map = new google.maps.Map(document.getElementById('map'), { zoom: 10 });
+  bounds = new google.maps.LatLngBounds();
   infoWindow = new google.maps.InfoWindow;
 
 
@@ -239,6 +234,8 @@ function initMap() {
 
       const coords = position.coords;  
       var pos = { lat: coords.latitude, lng: coords.longitude };
+
+      bounds.extend(pos);
 
       var marker = new google.maps.Marker({
         position: pos,
@@ -271,8 +268,11 @@ function drawMap(results) {
   var pos = results[0].geometry.location;
 
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12
+    zoom: 10
   });
+
+  bounds = new google.maps.LatLngBounds();
+  bounds.extend(pos);
 
   infoWindow = new google.maps.InfoWindow;
 
