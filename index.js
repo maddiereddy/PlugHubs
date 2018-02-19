@@ -1,7 +1,7 @@
 'use strict'
 
-var map, infoWindow, marker, bounds;
-var applyMap, isInitial;
+let map, infoWindow, marker, bounds;
+let applyMap, isInitial;
 
 // draw Route according to user input
 function drawRoute(response, directionsDisplay) {
@@ -43,7 +43,7 @@ function mapRoute(directionsService, directionsDisplay) {
 
 // Get all filter selections
 function getDistance() {
-  var e = $('#radius')[0];
+  let e = $('#radius')[0];
   return  parseFloat(e.options[e.selectedIndex].value);
 }
 
@@ -56,7 +56,7 @@ function getConnectorType() {
 }
 
 function getNetworks() {
-  var checkArray = new Array(); 
+  let checkArray = new Array(); 
 
   // look for all checkboxes of class 'network' attached to it and if checked 
   $('.network:checked').each(function() {
@@ -67,29 +67,29 @@ function getNetworks() {
 }
 
 function formatCoords(str) {
-  var prefix;
+  let prefix;
   prefix = parseFloat(str) > 0 ? '+' : '';
 
   return (`${prefix}${str}`);
 }
 
 function getNrelUrlString(bRoute) {
-  var stationServiceUrl = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/';
-  var fuelType = 'ELEC';
-  var access = 'public'; 
-  var status = 'E';
-  var distance = getDistance();
-  var connector = getConnectorType();
-  var level = getChargingLevel();
-  var networks = getNetworks();
-  var limit = 100;
+  let stationServiceUrl = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/';
+  let fuelType = 'ELEC';
+  let access = 'public'; 
+  let status = 'E';
+  let distance = getDistance();
+  let connector = getConnectorType();
+  let level = getChargingLevel();
+  let networks = getNetworks();
+  let limit = 100;
 
   if (bRoute) {
     distance = 1.0;
     limit = 'all';
   }
 
-  var urlString, queryString;
+  let urlString, queryString;
 
   queryString = `api_key=${NREL_API_KEY}&fuel_type=${fuelType}
       &access=${access}&status=${status}&radius=${distance}
@@ -106,12 +106,12 @@ function getNrelUrlString(bRoute) {
 }
 
 function drawMarkers(lat1, lng1, locations) {
-  var pos = { lat: lat1, lng: lng1 };
+  let pos = { lat: lat1, lng: lng1 };
 
   infoWindow = new google.maps.InfoWindow();
 
-  for (var i = 0; i < locations.length; i++) { 
-    var position = new google.maps.LatLng(locations[i][1], locations[i][2]);
+  for (let i = 0; i < locations.length; i++) { 
+    let position = new google.maps.LatLng(locations[i][1], locations[i][2]);
     bounds.extend(position);
 
     marker = new google.maps.Marker({
@@ -133,20 +133,20 @@ function drawMarkers(lat1, lng1, locations) {
 }
 
 function getStations(locations, results) {
-  var fuel_stations = results.fuel_stations;
-  var str = `<thead><tr>
+  let fuel_stations = results.fuel_stations;
+  let str = `<thead><tr>
               <th>#</th><th>Name</th> <th>Address</th><th>Phone</th>
               <th>Hours of operation</th><th>Distance (miles)</th>
             </tr></thead>`;
-  var data = [];
+  let data = [];
   data.push(str);
   data.push(`<tbody>`);
   
   $.each(fuel_stations, function(index, station) {
     index++;
-    var address = `${station.street_address}, ${station.city}, ${station.state} ${station.zip}`;
-    var distance = station.distance.toFixed(2);
-    var loc = [];
+    let address = `${station.street_address}, ${station.city}, ${station.state} ${station.zip}`;
+    let distance = station.distance.toFixed(2);
+    let loc = [];
 
     loc.push(address);
     loc.push(station.latitude);
@@ -168,10 +168,10 @@ function getStations(locations, results) {
 
 // get ev stations from nrel and map them
 function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
-  var locations = new Array();
-  var nrelString = getNrelUrlString(bRoute);
-  var coordString, urlString;
-  var methodType;
+  let locations = new Array();
+  let nrelString = getNrelUrlString(bRoute);
+  let coordString, urlString;
+  let methodType;
 
   lat1 = formatCoords(lat1);
   lng1 = formatCoords(lng1);
@@ -201,8 +201,8 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
 }
 
 function initRoute() {
-  var directionsService = new google.maps.DirectionsService();
-  var directionsDisplay = new google.maps.DirectionsRenderer();
+  let directionsService = new google.maps.DirectionsService();
+  let directionsDisplay = new google.maps.DirectionsRenderer();
 
   $('#route').on('click', () => {
     isInitial = false;
@@ -212,7 +212,7 @@ function initRoute() {
 
   $("#to").bind("keydown", function(event) {
     // track enter key
-    var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
+    let keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
     if (keycode === 13) { // keycode for enter key
       $('#route').click();// force the 'Enter Key' to implicitly click the submit button
     }
@@ -233,11 +233,11 @@ function initMap() {
     navigator.geolocation.getCurrentPosition(function(position) {
 
       const coords = position.coords;  
-      var pos = { lat: coords.latitude, lng: coords.longitude };
+      let pos = { lat: coords.latitude, lng: coords.longitude };
 
       bounds.extend(pos);
 
-      var marker = new google.maps.Marker({
+      let marker = new google.maps.Marker({
         position: pos,
         map: map,
         title: 'Current Location'
@@ -265,7 +265,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function drawMap(results) {
-  var pos = results[0].geometry.location;
+  let pos = results[0].geometry.location;
 
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10
@@ -276,7 +276,7 @@ function drawMap(results) {
 
   infoWindow = new google.maps.InfoWindow;
 
-  var marker = new google.maps.Marker({
+  let marker = new google.maps.Marker({
     position: pos,
     map: map
   });
@@ -286,8 +286,8 @@ function drawMap(results) {
 }
 
 function searchAddress() {
-  var address = $('#address').val();
-  var geocoder = new google.maps.Geocoder();
+  let address = $('#address').val();
+  let geocoder = new google.maps.Geocoder();
 
   geocoder.geocode({'address': address}, function(results, status) {
     if (status === 'OK') {
@@ -324,8 +324,8 @@ function closeNav() {
 }
 
 function popDistance() {
-  var data = [];
-  var dist = DISTANCE;
+  let data = [];
+  let dist = DISTANCE;
 
   $(dist).map(function(i, item) {
    data.push(`<option value="${item}">${item} mile</option>`);
@@ -335,9 +335,9 @@ function popDistance() {
 }
 
 function popConnectorType() {
-  var data = [];
-  var connector = CONNECTOR_TYPE;
-  var strChecked = "";
+  let data = [];
+  let connector = CONNECTOR_TYPE;
+  let strChecked = "";
 
   $(connector).map(function(i, item) {
     
@@ -358,8 +358,8 @@ function popConnectorType() {
 }
 
 function popNetworks() {
-  var data = [];
-  var network = NETWORK;
+  let data = [];
+  let network = NETWORK;
 
   $(network).map(function(i, item) {
     data.push(`
@@ -373,9 +373,9 @@ function popNetworks() {
 }
 
 function popChargingLevels() {
-  var data = [];
-  var charging = CHARGING_LEVEL;
-  var strChecked = "";
+  let data = [];
+  let charging = CHARGING_LEVEL;
+  let strChecked = "";
 
   $(charging).map(function(i, item) {
     
@@ -440,7 +440,7 @@ $(function() {
   });
 
   // show and hide divs accordion style
-  var links = $('.sidebar-links > div');
+  let links = $('.sidebar-links > div');
 
   links.on('click', function () {
     links.removeClass('selected');
@@ -450,7 +450,7 @@ $(function() {
   // to capture 'enter' or 'return' keystroke and force submit button
   $("#address").bind("keydown", function(event) {
     // track enter key
-    var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
+    let keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
     if (keycode === 13) { // keycode for enter key
       $('#search').click(); // force the 'Enter Key' to implicitly click the submit button
     }
