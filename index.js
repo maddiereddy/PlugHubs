@@ -137,10 +137,9 @@ function getStations(locations, results) {
   let str = `<thead><tr>
               <th>#</th><th>Name</th> <th>Address</th><th>Phone</th>
               <th>Hours of operation</th><th>Distance (miles)</th>
-            </tr></thead>`;
+            </tr></thead><tbody>`;
   let data = [];
   data.push(str);
-  data.push(`<tbody>`);
   
   $.each(fuel_stations, function(index, station) {
     index++;
@@ -160,8 +159,8 @@ function getStations(locations, results) {
             </tr>`);
   })
 
-  data.push(`</tbody>`);
-  $('#results').html(data);
+  data.push();
+  $('#results').html(`</tbody>${data}`);
 
   return locations;
 }
