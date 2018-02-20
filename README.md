@@ -8,7 +8,7 @@ Helps users locate electric vehicle charging stations geographically using the N
 The app helps users find all the electric vehicle charging stations near them (using geolocation),   
 or at an address or zip code that they can input. They have a choice of viewing the locations   
 on the map as markers or as a list.  
-The users can also filter the locations by 
+The users can also filter the locations by   
 	* radial distance (in miles)   
 	* type of connector   
 	* network   
@@ -18,7 +18,7 @@ User can also plan a trip and view ev stations along the way. They would have to
 to and from locations, again as an address, city or zipcode and click on the 'Map it' button.
 Filter options can be applied as well.
 
-## Technology used  
+## Technology used   
   * HTML
   * CSS
   * jQuery
