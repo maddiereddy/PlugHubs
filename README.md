@@ -2,7 +2,7 @@
 API Capstone project for Thinkful Full Stack Flex program
 
 ## What it does
-Helps users locate electric vehicle charging stations geographically using the NREL API with Google Maps
+Helps users locate electric vehicle charging stations geographically using the NREL API with Google Maps Javascript API
 
 ## Description
 The app helps users find all the electric vehicle charging stations near them (using geolocation),   
@@ -20,6 +20,10 @@ The user needs to click on the 'Apply Filter' button to see the new search resul
 User can also plan a trip and view ev stations along the way.    
 They would have to enter to and from locations, again as an address, city or zipcode and click on the 'Map it' button.    
 Filter options can be applied as well.
+
+NREL Request URLs used:    
+  * GET /api/alt-fuel-stations/v1/nearest.json?parameters    
+  * GET /api/alt-fuel-stations/v1/nearby-route.json?parameters    
 
 ## Technology used   
   * HTML
