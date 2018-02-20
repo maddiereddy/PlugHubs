@@ -43,4 +43,4 @@ List View
 
 Filter and Plan a Trip menu
 
-![filter menu](screenshots/Screen3.png)
+![filter menu](screenshots/Screen4.png)
