@@ -3,7 +3,9 @@
 let map, infoWindow, marker, bounds;
 let applyMap, isInitial;
 
-// draw Route according to user input
+/** 
+ * Draws the Route using the DirectionsRenderer and its polyline option
+ */
 function drawRoute(response, directionsDisplay) {
   directionsDisplay.setOptions({
     polylineOptions: {
@@ -21,7 +23,9 @@ function drawRoute(response, directionsDisplay) {
   mapEVStations(pos1.lat(), pos1.lng(), pos2.lat(), pos2.lng(), true);
 }
 
-// create a route according to user input
+/** 
+ * Map the Route using the DirectionsService and DirectionsRenderer
+ */
 function mapRoute(directionsService, directionsDisplay) {
   map = new google.maps.Map(document.getElementById('map'), {zoom: 10});
   bounds = new google.maps.LatLngBounds();
@@ -41,7 +45,9 @@ function mapRoute(directionsService, directionsDisplay) {
 }
 
 
-// Get all filter selections
+/** 
+ * Get all filter selections
+ */
 function getDistance() {
   let e = $('#radius')[0];
   return  parseFloat(e.options[e.selectedIndex].value);
@@ -58,7 +64,6 @@ function getConnectorType() {
 function getNetworks() {
   let checkArray = new Array(); 
 
-  // look for all checkboxes of class 'network' attached to it and if checked 
   $('.network:checked').each(function() {
     checkArray.push($(this).val());
   });
@@ -73,6 +78,9 @@ function formatCoords(str) {
   return (`${prefix}${str}`);
 }
 
+/** 
+ * Creates urlString based on filter selections and if map or route needed
+ */
 function getNrelUrlString(bRoute) {
   let stationServiceUrl = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/';
   let fuelType = 'ELEC';
@@ -105,6 +113,10 @@ function getNrelUrlString(bRoute) {
   return (`${urlString}${queryString}`);
 }
 
+/** 
+ * Draws all the ev-station markers on map based on the locations array passed in
+ * Adds click event listener to each of the marker to display an infoWindow
+ */
 function drawMarkers(lat1, lng1, locations) {
   let pos = { lat: lat1, lng: lng1 };
 
@@ -132,6 +144,10 @@ function drawMarkers(lat1, lng1, locations) {
   map.fitBounds(bounds);
 }
 
+/** 
+ * Creates an array of ev station locations and
+ * also creates a list of all ev-stations in current search
+ */
 function getStations(locations, results) {
   let fuel_stations = results.fuel_stations;
   let str = `<thead><tr>
@@ -165,7 +181,9 @@ function getStations(locations, results) {
   return locations;
 }
 
-// get ev stations from nrel and map them
+/** 
+ * Makes call to the NREL API to get json data of all resulting ev stations
+ */
 function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
   let locations = new Array();
   let nrelString = getNrelUrlString(bRoute);
@@ -199,6 +217,10 @@ function mapEVStations(lat1, lng1, lat2, lng2, bRoute) {
   });
 }
 
+/** 
+ * Initializes variables used to create route map
+ * and also create click event listeners 
+ */
 function initRoute() {
   let directionsService = new google.maps.DirectionsService();
   let directionsDisplay = new google.maps.DirectionsRenderer();
@@ -212,14 +234,16 @@ function initRoute() {
   $("#to").bind("keydown", function(event) {
     // track enter key
     let keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
-    if (keycode === 13) { // keycode for enter key
-      $('#route').click();// force the 'Enter Key' to implicitly click the submit button
+    if (keycode === 13) {  // keycode for enter key
+      $('#route').click(); // force the 'Enter Key' to implicitly click the submit button
     }
   }); 
 }
 
-
-// Initialize app with geolocation
+/** 
+ * Initializes variables used to create initial map using geolocation
+ * and also handles errors 
+ */
 function initMap() {
   applyMap = true;
 
@@ -263,6 +287,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
+/** 
+ * Draws map given coordinates and create location marker
+ */
 function drawMap(results) {
   let pos = results[0].geometry.location;
 
@@ -284,6 +311,9 @@ function drawMap(results) {
   mapEVStations(pos.lat(), pos.lng(), 0, 0, false);  
 }
 
+/** 
+ * In response in search click event, this function gets geocode coords
+ */
 function searchAddress() {
   let address = $('#address').val();
   let geocoder = new google.maps.Geocoder();
@@ -297,7 +327,9 @@ function searchAddress() {
   });
 }
 
-// work the tabs according to user selection
+/** 
+ * Open corresponding view (map or list)
+ */
 function openPage(pageName) {
   if (pageName === 'map') {
     $('#results').addClass('hidden');
@@ -308,20 +340,27 @@ function openPage(pageName) {
   }
 }
 
-// Open Side Navbar menu
+/** 
+ * Open Side Navbar menu
+ */
 function openNav() {
   $("#my-sidenav")[0].style.width = "250px";
   $("#page-container")[0].style.marginLeft = "250px";
   $("#page-container")[0].style.width = "calc(100% - 250px)";
 }
 
-// Close Side Navbar menu
+/** 
+ * Close Side Navbar menu
+ */
 function closeNav() {
   $("#my-sidenav")[0].style.width = "0";
   $("#page-container")[0].style.marginLeft= "0";
   $("#page-container")[0].style.width = "100%";
 }
 
+/** 
+ * Populate filter selection tabs
+ */
 function popDistance() {
   let data = [];
   let dist = DISTANCE;
@@ -394,6 +433,9 @@ function popChargingLevels() {
   $('#charging').append(data);
 }
 
+/** 
+ * On window load
+ */
 $(function() {
   isInitial = true;
 
