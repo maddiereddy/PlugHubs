@@ -24,12 +24,13 @@ footer {
   bottom: 0;
   height: 40px;
   text-align: center;
-  font-size: 12px
+  font-size: 13px;
 }
 
 main {
   position: absolute;
   width: 100%;
+  height: calc(100% - 100px);
   top: 60px;
   bottom: 40px;
   background-color: gray;
@@ -46,20 +47,15 @@ main {
   color: deepskyblue;
 }
 
-.menu i {
-  font-size: 14px;
-  vertical-align: middle;
-}
-
 .tab-container {
   float: right;
 }
 
 .tab-link, .apply {
-  padding: 8px 8px;
+  padding: 6px 6px;
   margin-top: 0.2em;
   background: lightgray;
-  font-size: 13px;
+  font-size: 16px;
   border: none;
   cursor: pointer;
 }
@@ -73,21 +69,21 @@ main {
 }
 
 .search-container input[type="text"] {
-  padding: 8px;
+  padding: 6px;
   margin-top: 0.2em;
-  font-size: 13px;
+  font-size: 15px;
   border: none;
   border-radius: 0;
 }
 
 .search-container button {
   float: right;
-  width: 30px;
-  padding: 6px 10px;
-  margin-top: 0.2em;
-  margin-right: 16px;
+  width: 40px;
+  padding: 4px 4px 5px 4px;
+  margin-top: 3px;
+  margin-right: 10px;
   background: lightgray;
-  font-size: 16px;
+  font-size: 18px;
   border: none;
   cursor: pointer;
 }
@@ -104,7 +100,8 @@ main {
   top: 0;
   left: 0;
   background-color: #333333;
-  overflow-x: hidden;
+  overflow-x: scroll;
+  overflow-y: scroll;
   transition: 0.5s;
   padding-top: 60px;
 }
@@ -124,7 +121,7 @@ main {
 
 .sidenav h2 {
   padding: 0px 8px 8px 24px;
-  font-size: 18px;
+  font-size: 20px;
   color: white;
   display: inline-block;
 }
@@ -151,7 +148,7 @@ main {
   position: absolute;
   top: 0;
   right: 8px;
-  font-size: 36px;
+  font-size: 30px;
   margin-left: 50px;
 }
 
@@ -160,10 +157,14 @@ main {
 }
 
 .sidebar-links .distance {
-  padding: 8px;
+  padding: 4px;
   left: 24px;
   width: 60%;
-  height: 24px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  background-color: white
 }
 
 .sidebar-links a {
@@ -174,9 +175,9 @@ main {
   background-color: darkgray;
   text-align: left;
   color: black;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-  line-height: 2;
+  line-height: 1.8;
   border-left-width: 3px;
   border-left-style: solid;
 }
@@ -184,7 +185,7 @@ main {
 .sidebar-links .selected  a {
   background-color: #ffffff;
   color: #565d63;
-  line-height: 2.3;
+  line-height: 2;
   margin: 0;
 }
 
@@ -194,8 +195,8 @@ main {
   list-style: none;
   padding: 0 0 0 10px;
   color: white;
-  font-size: 11px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 18px;
   margin: 0;
   transition: 0.4s;
 }
@@ -236,7 +237,7 @@ main {
 #trip-form input[type="text"] {
   padding: 6px;
   margin-top: 0.2em;
-  font-size: 12px;
+  font-size: 15px;
   border: none;
 }
 
@@ -245,7 +246,7 @@ main {
   margin-top: 0.2em;
   margin-right: 16px;
   background: lightgray;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   cursor: pointer;
 }
@@ -289,11 +290,12 @@ th {
   padding: 8px;
   background-color: #333333;
   color: white;
+  font-size: 16px;
 }
 
 td {
   border: 1px solid darkgray;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left
   padding: 5px 10px;
   height: inherit;
@@ -305,7 +307,9 @@ tr:nth-child(odd) {
 
 @media screen and (max-width: 600px) {
   header { height: 100px; }
-  main { top: 100px; }
+  main { 
+    top: 100px;
+  }
 
   .menu {
     width: 48%;
@@ -315,7 +319,16 @@ tr:nth-child(odd) {
 
   .tab-container {
     float: right;
-    width: 51%;
+    width: 50%;
+  }
+
+  .tab-link {
+    padding: 4px 3px;
+    margin: 2px 0 2px 2px;
+    background: lightgray;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
   }
 
   #map-view, #list-view {
@@ -333,12 +346,11 @@ tr:nth-child(odd) {
  
   .search-container button {
     position: fixed;
-    width: 30px;
     float: right;
   }
   .search-container input[type='text'] {
     float: left;
-    width: calc(100% - 30px);
+    width: calc(100% - 40px);
   }
 }
 
