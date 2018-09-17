@@ -1,6 +1,9 @@
 # PlugHubs
 API Capstone project for Thinkful Full Stack Flex program
 
+## Live Demo
+https://maddiereddy.github.io/PlugHubs/
+
 ## What it does
 Helps users locate electric vehicle charging stations geographically using the NREL API with Google Maps Javascript API
 
@@ -32,11 +35,11 @@ NREL Request URLs used:
   * http-server
 
 ## Instructions
-1. To run app locally
-	* git clone repository
-	* run `npm install` to install node-module packages
-	* run `npm run local` and app opens on localhost:8010
-2. App is deployed on GitHub Pages at https://maddiereddy.github.io/PlugHubs/
+To run app locally:
+* git clone repository
+* run `npm install` to install node-module packages
+* run `npm run local` and app opens on localhost:8010
+
 
 ## Screenshots
 
