@@ -19,7 +19,7 @@ header, footer {
   padding: 12px;
 }
 
-header {
+.landing-header {
   top: 0;
   height: 60px;
 }
@@ -29,7 +29,7 @@ footer {
   bottom: 0;
   height: 40px;
   text-align: center;
-  font-size: 13px;
+  font-size: 0.8em;
   padding-top: 0px;
 }
 
@@ -41,11 +41,16 @@ footer a {
 main {
   position: absolute;
   width: 100%;
-  height: calc(100% - 100px);
-  top: 60px;
+  height: calc(100% - 160px);
+  top: 120px;
   bottom: 40px;
   background-color: gray;
   display: block;
+}
+
+.container-header {
+  top: 0px;
+  height: 120px;
 }
 
 .menu {
@@ -70,14 +75,17 @@ main {
   font-size: 16px;
   border: none;
   cursor: pointer;
+  width: 100px;
+}
+
+.tab-link, .search-container {
+  clear: both;
+  float: right;
+  margin-right: 10px;
 }
 
 .tab-link:hover, .apply:hover{
   background: darkgray;
-}
-
-.search-container {
-  float: right;
 }
 
 .search-container input[type="text"] {
@@ -86,14 +94,15 @@ main {
   font-size: 15px;
   border: none;
   border-radius: 0;
+  width: 250px;
 }
 
 .search-container button {
+  clear: both;
   float: right;
   width: 40px;
   padding: 4px 4px 5px 4px;
   margin-top: 3px;
-  margin-right: 10px;
   background: lightgray;
   font-size: 18px;
   border: none;
@@ -384,57 +393,48 @@ tr:nth-child(odd) {
   .start-text aside {
     font-size: 1.2em;
   }
-}
 
-@media screen and (min-width: 480px) {
-
-}
-
-@media screen and (min-width: 768px) {
-  /* main { 
-    top: 100px;
-  }
-
-  .menu {
-    width: 48%;
-    padding: 0px;
-    font-size: 24px;
-  }
-
-  .tab-container {
-    float: right;
-    width: 50%;
+  footer {
+    font-size: 0.7em;
+    padding-top: 5px;
   }
 
   .tab-link {
-    padding: 4px 3px;
-    margin: 2px 0 2px 2px;
-    background: lightgray;
+    width: 80px;
     font-size: 14px;
-    border: none;
-    cursor: pointer;
   }
 
-  #map-view, #list-view {
-    float: right;
-    right: 0;
-    border: 1px solid gray;
+  .search-container input[type="text"] {
+    width: 200px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container-header {
+    height: 60px;
+  }
+  main {
+    top: 60px;
+    height: calc(100% - 100px);
   }
 
-  .search-container{
-    box-sizing: border-box;
-    float: left;  
-    width: 100%;
-    margin: 0px;
-  }
- 
-  .search-container button {
-    position: fixed;
+  .tab-link {
+    display: block;
+    clear: none;
     float: right;
   }
-  .search-container input[type='text'] {
-    float: left;
-    width: calc(100% - 40px); */
+
+  .search-container {
+    display: block;
+    clear: none;
+    float: right;
+  }
+  
+}
+
+@media screen and (min-width: 1024px) {
+  .search-container input[type="text"] {
+    width: 300px;
   }
 }
 
@@ -442,3 +442,56 @@ tr:nth-child(odd) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+/* .landing {
+  margin-top: 10px;
+}
+
+
+
+main { 
+  top: 100px;
+}
+
+.menu {
+  width: 48%;
+  padding: 0px;
+  font-size: 24px;
+}
+
+.tab-container {
+  float: right;
+  width: 50%;
+}
+
+.tab-link {
+  padding: 4px 3px;
+  margin: 2px 0 2px 2px;
+  background: lightgray;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+#map-view, #list-view {
+  float: right;
+  right: 0;
+  border: 1px solid gray;
+}
+
+.search-container{
+  box-sizing: border-box;
+  float: left;  
+  width: 100%;
+  margin: 0px;
+}
+
+.search-container button {
+  position: fixed;
+  float: right;
+}
+
+.search-container input[type='text'] {
+  float: left;
+  width: calc(100% - 40px);
+} */
