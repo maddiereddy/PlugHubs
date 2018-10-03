@@ -41,8 +41,8 @@ footer a {
 main {
   position: absolute;
   width: 100%;
-  height: calc(100% - 160px);
-  top: 120px;
+  height: calc(100% - 140px);
+  top: 100px;
   bottom: 40px;
   background-color: gray;
   display: block;
@@ -50,38 +50,35 @@ main {
 
 .container-header {
   top: 0px;
-  height: 120px;
+  height: 100px;
 }
 
 .menu {
-  font-size: 2em;;
+  font-size: 1.8em;;
   cursor: pointer;
   float: left;
   display: block;
-  padding: 0px 10px;
+  padding: 0px 5px;
   text-decoration: none;
   color: deepskyblue;
   font-family: 'Lakki Reddy';
 }
 
-.tab-container {
+.tab-container, .search-container {
+  clear: none;
   float: right;
-}
+  display: block;
+  margin: 5px;
+} 
 
-.tab-link, .apply {
-  padding: 6px 6px;
-  margin-top: 0.2em;
+.tab-link {
   background: lightgray;
-  font-size: 16px;
+  font-size: 0.8em;
   border: none;
   cursor: pointer;
-  width: 100px;
-}
-
-.tab-link, .search-container {
-  clear: both;
-  float: right;
-  margin-right: 10px;
+  width: 90px;
+  height: 30px;
+  margin-left: 5px;
 }
 
 .tab-link:hover, .apply:hover{
@@ -89,20 +86,18 @@ main {
 }
 
 .search-container input[type="text"] {
-  padding: 6px;
-  margin-top: 0.2em;
   font-size: 15px;
   border: none;
   border-radius: 0;
-  width: 250px;
+  width: 200px;
+  height: 30px;
+  padding: 3px 10px;
 }
 
 .search-container button {
-  clear: both;
   float: right;
   width: 40px;
-  padding: 4px 4px 5px 4px;
-  margin-top: 3px;
+  height: 30px;
   background: lightgray;
   font-size: 18px;
   border: none;
@@ -132,6 +127,16 @@ main {
 
 .fa-close:hover {
   color: #818181;
+}
+
+.apply {
+  padding: 6px 6px;
+  margin-top: 0.2em;
+  background: lightgray;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  width: 100px;
 }
 
 .sidenav a {
@@ -362,6 +367,7 @@ tr:nth-child(odd) {
   position: absolute;
   width: 100%;
   padding: 0px 30px 20px;
+  margin-bottom: 30px;
   color:  #333333;
   font-family: 'Nanum Brush Script';
 }
@@ -389,27 +395,40 @@ tr:nth-child(odd) {
   border: 1px solid deepskyblue;
 }
 
-@media screen and (max-width: 321px) {
+@media screen and (max-width: 376px) {
+  main {
+    height: calc(100% - 180px);
+    top: 140px;
+  }
+  
+  .container-header {
+    height: 140px;
+  }
+
+  .start-text {
+    margin-bottom: 10px;
+  }
+
+  .start-text h1 {
+    margin: 5px 0;
+  }
+
   .start-text aside {
-    font-size: 1.2em;
+    font-size: 1.1em;
+  }
+
+  .start-text button {
+    font-size: 1.4em;
+    padding: 5px 10px;;
   }
 
   footer {
     font-size: 0.7em;
     padding-top: 5px;
   }
-
-  .tab-link {
-    width: 80px;
-    font-size: 14px;
-  }
-
-  .search-container input[type="text"] {
-    width: 200px;
-  }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 667px) {
   .container-header {
     height: 60px;
   }
@@ -442,56 +461,3 @@ tr:nth-child(odd) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
-
-/* .landing {
-  margin-top: 10px;
-}
-
-
-
-main { 
-  top: 100px;
-}
-
-.menu {
-  width: 48%;
-  padding: 0px;
-  font-size: 24px;
-}
-
-.tab-container {
-  float: right;
-  width: 50%;
-}
-
-.tab-link {
-  padding: 4px 3px;
-  margin: 2px 0 2px 2px;
-  background: lightgray;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-}
-
-#map-view, #list-view {
-  float: right;
-  right: 0;
-  border: 1px solid gray;
-}
-
-.search-container{
-  box-sizing: border-box;
-  float: left;  
-  width: 100%;
-  margin: 0px;
-}
-
-.search-container button {
-  position: fixed;
-  float: right;
-}
-
-.search-container input[type='text'] {
-  float: left;
-  width: calc(100% - 40px);
-} */
