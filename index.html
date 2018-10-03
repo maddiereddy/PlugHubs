@@ -7,10 +7,35 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Caveat|Lakki+Reddy|Nanum+Brush+Script|Roboto" rel="stylesheet">
     <link href="index.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div class="container" id="page-container">
+    <div class="start-page">
+      <header role="banner">
+        <span class="menu landing">PlugHubs</span>   
+      </header>
+      <div class="start-image">
+        <div class="start-text">
+          <h1>Find a charging station!</h1>
+          <aside>With over 17500 stations across the country, an EV charger is closer than you might realize.<br>
+          Planning a road trip? No problem, PlugHubs has you covered.<br>
+          Just enter in your starting and ending locations and the app will show you all the ev charging stations along the way. <br>
+          Or, if you find yourself in a new place, find the nearest one by geolocation or by entering in the address or just zip code.</aside>
+          <button class="start-button">Let's get started!</button>
+        </div>
+      </div>
+      <footer role="contentinfo">
+          <section role="region" class="footer-copyright">
+            <p>
+              <i class="fa fa-copyright" aria-hidden="true"></i> PlugHubs 2018 by Maddie Rajavasireddy
+              <a href="https://github.com/maddiereddy/PlugHubs" title="Check out my code on GitHub"><i class="fa fa-github" aria-label="github link"></i></a>
+              <a href="https://www.linkedin.com/in/maddierajavasireddy/" title="Look at my profile on LinkedIn"><i class="fa fa-linkedin" aria-label="linkedIn link"></i></a>
+              <a href="mailto:maddiereddy@gmail.com?Subject=Hello" title="Send me an email"><i class="fa fa-envelope" aria-label="gmail link"></i></a>
+            </p>
+        </footer>
+    </div>
+    <div class="container hidden" id="page-container">
       <header role="banner">
         <span class="menu" id="open-menu"><i class="fa fa-bars"></i> PlugHubs</span>
         <div class="tab-container">
@@ -76,7 +101,16 @@
           <table id="results" class="hidden" aria-label="list" aria-live="assertive"></table>
         </section>
       </main>
-      <footer role="contentinfo">Copyright &copy; maddiereddy.com</footer>
+      <footer role="contentinfo">
+          <section role="region" class="footer-copyright">
+            <p>
+              <i class="fa fa-copyright" aria-hidden="true"></i> PlugHubs 2018 by Maddie Rajavasireddy
+              <a href="https://github.com/maddiereddy/PlugHubs" title="Check out my code on GitHub"><i class="fa fa-github" aria-label="github link"></i></a>
+              <a href="https://www.linkedin.com/in/maddierajavasireddy/" title="Look at my profile on LinkedIn"><i class="fa fa-linkedin" aria-label="linkedIn link"></i></a>
+              <a href="mailto:maddiereddy@gmail.com?Subject=Hello" title="Send me an email"><i class="fa fa-envelope" aria-label="gmail link"></i></a>
+            </p>
+          </section>
+        </footer>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

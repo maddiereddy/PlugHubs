@@ -437,6 +437,14 @@ function popChargingLevels() {
  * On window load
  */
 $(function() {
+  // Landing page
+  $('.start-text').on('click', '.start-button', function (event) {
+    event.preventDefault();
+
+    $('.start-page').addClass("hidden");
+    $('.container').removeClass("hidden");
+  });
+
   isInitial = true;
 
   const URL = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
