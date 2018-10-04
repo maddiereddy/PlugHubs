@@ -42,6 +42,9 @@ To run app locally:
 
 
 ## Screenshots
+Landing Page
+
+![landing page](screenshots/Screen0.png)
 
 Map View
 
