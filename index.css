@@ -4,7 +4,6 @@
 
 body {
   margin: 0;
-  font-family: Arial;
   height: 100%;
   font-family: "Lato";
 }
@@ -303,7 +302,6 @@ main {
 
 table {
   display: block;
-  font-family: arial, sans-serif;
   border-collapse: collapse;
   position: absolute;
   left: 10px;
@@ -369,7 +367,7 @@ tr:nth-child(odd) {
   padding: 0px 30px 20px;
   margin-bottom: 30px;
   color:  #333333;
-  font-family: 'Nanum Brush Script';
+  font-family: 'Alegreya';
 }
 
 .start-text aside {
@@ -382,11 +380,11 @@ tr:nth-child(odd) {
   background-color: #333333;
   color:white;
   margin: 10px auto;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   border: 1px solid #333333;
-  font-family: "Nanum Brush Script";
-  font-size: 1.5em;
+  font-family: "Alegreya";
+  font-size: 1.2em;
   text-transform: uppercase;
 }
 
